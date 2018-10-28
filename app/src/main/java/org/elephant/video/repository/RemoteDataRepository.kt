@@ -5,6 +5,7 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.elephant.video.bean.BaseResponse
 import org.elephant.video.bean.VideoBean
 import yangj.mvvm.RetrofitApi
 import yangj.mvvm.RetrofitManager
@@ -23,12 +24,12 @@ class RemoteDataRepository {
         val INSTANCE = RemoteDataRepository()
     }
 
-    fun getToDayVideo(): MutableLiveData<VideoBean> {
-        val data = MutableLiveData<VideoBean>()
+    fun getToDayVideo(): MutableLiveData<BaseResponse<VideoBean>> {
+        val data = MutableLiveData<BaseResponse<VideoBean>>()
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
         val observers = api?.toDayVideo()
         observers?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<VideoBean> {
+            ?.subscribe(object : Observer<BaseResponse<VideoBean>> {
                 override fun onComplete() {
                     println("onComplete")
                 }
@@ -37,9 +38,9 @@ class RemoteDataRepository {
                     println("onSubscribe")
                 }
 
-                override fun onNext(t: VideoBean) {
+                override fun onNext(t: BaseResponse<VideoBean>) {
+                    println("onNext")
                     data.value = t
-                    println("onNext: $t")
                 }
 
                 override fun onError(e: Throwable) {

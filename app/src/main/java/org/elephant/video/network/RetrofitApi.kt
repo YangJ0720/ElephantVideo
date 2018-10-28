@@ -1,6 +1,7 @@
 package yangj.mvvm
 
 import io.reactivex.Observable
+import org.elephant.video.bean.BaseResponse
 import org.elephant.video.bean.VideoBean
 import retrofit2.http.GET
 
@@ -11,6 +12,6 @@ import retrofit2.http.GET
 interface RetrofitApi {
 
     @GET("todayVideo")
-    fun toDayVideo() : Observable<VideoBean>
+    fun toDayVideo() : Observable<BaseResponse<VideoBean>>
 
 }

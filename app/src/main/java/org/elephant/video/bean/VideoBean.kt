@@ -6,31 +6,40 @@ package org.elephant.video.bean
  */
 class VideoBean {
 
-    private var code: Int = 0
-    private var message: String? = null
-    private var result: List<Result>? = null
-    fun setCode(code: Int) {
-        this.code = code
-    }
+    var adIndex = 0
 
-    fun getCode(): Int {
-        return code
-    }
+    var data: VideoData? = null
 
-    fun setMessage(message: String) {
-        this.message = message
-    }
+    var id = 0
 
-    fun getMessage(): String? {
-        return message
-    }
+    var type: String? = null
 
-    fun setResult(result: List<Result>) {
-        this.result = result
-    }
+    inner class VideoData {
 
-    fun getResult(): List<Result>? {
-        return result
+        var content: VideoContent? = null
+
+        var dataType: String? = null
+
+        var header: VideoHeader? = null
+
+        inner class VideoContent {
+            var adIndex = 0
+            var data: VideoContentData? = null
+            var id = 0
+            var type: String? = null
+
+            inner class VideoContentData {
+                var createTime: Long? = null
+                var status: String? = null
+                var playUrl: String? = null
+                var title: String? = null
+            }
+        }
+
+        inner class VideoHeader {
+            var icon: String? = null
+            var id = 0
+        }
     }
 
 }

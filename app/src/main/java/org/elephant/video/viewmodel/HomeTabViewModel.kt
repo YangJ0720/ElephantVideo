@@ -3,6 +3,7 @@ package org.elephant.video.viewmodel
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import org.elephant.video.bean.BaseResponse
 import org.elephant.video.bean.VideoBean
 import org.elephant.video.repository.RemoteDataRepository
 
@@ -12,13 +13,13 @@ import org.elephant.video.repository.RemoteDataRepository
  */
 class HomeTabViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var mLiveData: LiveData<VideoBean>? = null
+    private var mLiveData: LiveData<BaseResponse<VideoBean>>? = null
 
     init {
         mLiveData = RemoteDataRepository.getInstance().getToDayVideo()
     }
 
-    fun getLiveData(): LiveData<VideoBean>? {
+    fun getLiveData(): LiveData<BaseResponse<VideoBean>>? {
         return mLiveData
     }
 

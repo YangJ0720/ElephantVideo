@@ -30,6 +30,7 @@ buildscript {
         retrofit_version = '2.4.0'
         okhttp_version = '3.10.0'
         gson_version = '2.8.5'
+        baseRecyclerViewAdapterHelper_version = '2.9.42'
         junit_version = '4.12'
         // Testing dependencies
         espresso_version = '3.0.2'
@@ -40,6 +41,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
