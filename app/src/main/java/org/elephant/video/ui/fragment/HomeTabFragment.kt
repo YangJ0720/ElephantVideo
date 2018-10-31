@@ -3,58 +3,84 @@ package org.elephant.video.ui.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.TextView
 import org.elephant.video.R
-import org.elephant.video.adapter.VideoAdapter
-import org.elephant.video.bean.BaseResponse
-import org.elephant.video.bean.VideoBean
+import org.elephant.video.adapter.TabPagerAdapter
+import org.elephant.video.base.BaseFragment
+import org.elephant.video.bean.VideoHomeTabBean
 import org.elephant.video.databinding.FragmentTabHomeBinding
+import org.elephant.video.network.bean.BaseResponse
+import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.HomeTabViewModel
+import org.elephant.video.viewmodel.HomeTabViewModelFactory
 
 /**
  * @author YangJ
  *
  */
-class HomeTabFragment : Fragment() {
+class HomeTabFragment : BaseFragment() {
 
-    private var mData: ArrayList<VideoBean>? = null
-    private var mAdapter: VideoAdapter? = null
+    private var mAdapter: TabPagerAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initData()
+    private var mTabLayout: TabLayout? = null
+
+    override fun initData() {
+        val labels = ArrayList<String?>()
+        val fragments = ArrayList<Fragment>()
+        mAdapter = TabPagerAdapter(fragmentManager, fragments)
+        // 请求视频大纲获取接口
+        val factory = InjectorUtils.provideHomeTabViewModelFactory()
+        val model = ViewModelProviders.of(this, factory).get(HomeTabViewModel::class.java)
+        model.getVideoHomeTabLiveData()?.observe(this, Observer<BaseResponse<List<VideoHomeTabBean>>> { response ->
+            val result = response?.result
+            val size = result?.size
+            for (i in 0 until size!!) {
+                val id = result[i].id
+                if (id < 0) {
+                    continue
+                }
+                labels?.add(result[i].name)
+                fragments?.add(TabPagerFragment.newInstance(result[i].id))
+            }
+            mAdapter?.notifyDataSetChanged()
+            // 刷新ViewPager数据
+            notifyTabPager(labels)
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentTabHomeBinding.inflate(inflater, container, false)
-        binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        return binding.root
+        // 初始化界面布局
+        if (mView == null) {
+            val binding = FragmentTabHomeBinding.inflate(inflater, container, false)
+            val viewPager = binding.viewPager
+            viewPager.adapter = mAdapter
+            mTabLayout = binding.tabLayout
+            mTabLayout?.setupWithViewPager(viewPager)
+            mView = binding.root
+        } else {
+            val parent = mView?.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(mView)
+            }
+        }
+        return mView
     }
 
-    private fun initData() {
-        mData = ArrayList()
-        mAdapter = VideoAdapter(R.layout.item_tab_home, mData)
-        // 请求服务器数据
-        val model = ViewModelProviders.of(this).get(HomeTabViewModel::class.java)
-        model.getLiveData()?.observe(this, Observer<BaseResponse<VideoBean>> { response ->
-            val list = response?.result
-            val size = list?.size!!
-            println("size = $size")
-            for (i in 0 until size) {
-                val result = list[i]
-                println("$i = ${result?.toString()}")
-            }
-            if (mData?.isNotEmpty()!!){
-                mData?.clear()
-            }
-            mData?.addAll(list)
-            mAdapter?.notifyItemInserted(0)
-        })
+    private fun notifyTabPager(names: ArrayList<String?>) {
+        val tabCount = mTabLayout?.tabCount!!
+        for (i in 0 until tabCount) {
+            val tab = mTabLayout?.getTabAt(i)
+            val view = layoutInflater.inflate(R.layout.item_tab_pager, null)
+            view.findViewById<TextView>(R.id.tvName).text = names[i]
+            tab?.customView = view
+        }
     }
 
 }

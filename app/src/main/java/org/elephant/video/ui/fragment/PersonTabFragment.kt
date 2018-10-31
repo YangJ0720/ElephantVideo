@@ -1,22 +1,34 @@
 package org.elephant.video.ui.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import org.elephant.video.R
+import org.elephant.video.base.BaseFragment
+import org.elephant.video.databinding.FragmentTabPersonBinding
 
 /**
  * @author YangJ
  *
  */
-class PersonTabFragment : Fragment() {
+class PersonTabFragment : BaseFragment() {
+
+    override fun initData() {
+
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_person, container, false)
+        if (mView == null) {
+            val binding = FragmentTabPersonBinding.inflate(inflater, container, false)
+            mView = binding.root
+        } else {
+            val parent = mView?.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(mView)
+            }
+        }
+        return mView
     }
 
 }
