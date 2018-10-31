@@ -28,6 +28,15 @@
                 app:layout_constraintBottom_toBottomOf="@id/surfaceView"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+        <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surfaceView"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>

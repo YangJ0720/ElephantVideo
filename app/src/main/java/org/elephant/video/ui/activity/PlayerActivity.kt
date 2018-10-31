@@ -24,10 +24,12 @@ class PlayerActivity : BaseActivity() {
         val bundle = intent.extras
         val title = bundle.getString("title")
         val playUrl = bundle.getString("playUrl")
+        val description = bundle.getString("description")
         // view
         val binding = DataBindingUtil.setContentView<ActivityPlayerBinding>(this, R.layout.activity_player)
         binding.title.findViewById<TextView>(R.id.tvTitle).text = title
         binding.title.findViewById<ImageView>(R.id.ivBack).setOnClickListener { finish() }
+        binding.tvDescription.text = description
         mMediaPlayer = MediaPlayer()
         mMediaPlayer?.setDataSource(this, Uri.parse(playUrl))
         mMediaPlayer?.setOnPreparedListener { mp ->

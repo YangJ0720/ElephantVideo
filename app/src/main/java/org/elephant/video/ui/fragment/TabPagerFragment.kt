@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ class TabPagerFragment : BaseFragment() {
             val bundle = Bundle()
             bundle.putString("title", bean?.title)
             bundle.putString("playUrl", bean?.playUrl)
+            bundle.putString("description", bean?.description)
             intent.putExtras(bundle)
             startActivity(intent)
         }
@@ -50,7 +52,12 @@ class TabPagerFragment : BaseFragment() {
             result?.forEach { it ->
                 val data = it?.data
                 val header = data?.header
-                mData?.add(VideoBean(header?.title, header?.icon, data?.content?.data?.playUrl))
+                val content = data?.content
+                val author = content?.data?.author
+                val consumption = content?.data?.consumption
+                mData?.add(VideoBean(header?.title, header?.icon, content?.data?.duration, content?.data?.playUrl,
+                    content?.data?.description, author?.name, author?.icon, consumption?.collectionCount!!,
+                    consumption?.replyCount, consumption?.shareCount))
             }
             mAdapter?.notifyItemInserted(0)
         })
@@ -60,7 +67,7 @@ class TabPagerFragment : BaseFragment() {
         if (mView == null) {
             val binding = FragmentTabPagerBinding.inflate(inflater, container, false)
             binding.recyclerView.adapter = mAdapter
-            binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+            binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             mView = binding.root
         } else {
             val parent = mView?.parent

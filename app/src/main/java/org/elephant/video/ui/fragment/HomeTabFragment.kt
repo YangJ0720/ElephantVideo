@@ -77,9 +77,7 @@ class HomeTabFragment : BaseFragment() {
         val tabCount = mTabLayout?.tabCount!!
         for (i in 0 until tabCount) {
             val tab = mTabLayout?.getTabAt(i)
-            val view = layoutInflater.inflate(R.layout.item_tab_pager, null)
-            view.findViewById<TextView>(R.id.tvName).text = names[i]
-            tab?.customView = view
+            tab?.text = names[i]
         }
     }
 

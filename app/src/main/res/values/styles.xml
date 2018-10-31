@@ -8,11 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 底部选项卡主题样式 -->
     <style name="TabHostTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <!-- 圆形头像主题样式 -->
+    <style name="CircleIconTheme">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
     </style>
 
 </resources>

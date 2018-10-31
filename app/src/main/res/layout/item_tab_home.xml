@@ -2,25 +2,68 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView android:layout_width="match_parent"
-               android:layout_height="100dp"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               android:layout_marginTop="@dimen/dp_4"
-               android:scaleType="fitCenter"
-               android:id="@+id/ivIcon"
-               app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="@dimen/dp_4"
-              android:id="@+id/tvTitle"
-              app:layout_constraintTop_toBottomOf="@+id/ivIcon"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+            android:id="@+id/ivAuthorIcon"
+            style="@style/CircleIconTheme"
+            android:layout_margin="@dimen/dp_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivIcon"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:id="@+id/tvAuthorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_4"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintStart_toEndOf="@id/ivAuthorIcon"
+            app:layout_constraintTop_toTopOf="@id/ivAuthorIcon"
+            app:layout_constraintBottom_toBottomOf="@id/ivAuthorIcon"/>
+
+    <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="@dimen/dp_4"/>
+
+    <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/ivAuthorIcon"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"/>
+
+    <org.elephant.video.ui.widget.ConsumptionView
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_4"
+            app:space_between="@dimen/dp_4"
+            app:text_size="@dimen/sp_12"
+            app:layout_constraintTop_toTopOf="@id/ivAuthorIcon"
+            app:layout_constraintBottom_toBottomOf="@id/ivAuthorIcon"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

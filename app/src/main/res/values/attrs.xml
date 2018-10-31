@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="ConsumptionViewStyleable">
+        <!-- 评论、收藏、分享图标之间的间距 -->
+        <attr name="space_between" format="dimension"/>
+        <attr name="text_size" format="dimension"/>
+    </declare-styleable>
+    
+</resources>
