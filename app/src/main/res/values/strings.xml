@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ElephantVideo</string>
+    <string name="app_name">小象视频</string>
 
     <string name="tab_label_home">视频</string>
     <string name="tab_label_find">发现</string>

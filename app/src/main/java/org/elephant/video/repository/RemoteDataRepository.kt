@@ -36,24 +36,14 @@ class RemoteDataRepository {
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
         val observable = api?.toDayVideo()
         observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<BaseResponse<TodayVideoBean>> {
-                override fun onComplete() {
-                    println("onComplete")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    println("onSubscribe")
-                }
-
-                override fun onNext(t: BaseResponse<TodayVideoBean>) {
-                    println("onNext")
+            ?.subscribe(object : RxSubscribe<TodayVideoBean>() {
+                override fun onSuccess(t: BaseResponse<TodayVideoBean>) {
                     data.value = t
                 }
 
-                override fun onError(e: Throwable) {
-                    println("onError: $e")
-                }
+                override fun onFailed(e: Throwable) {
 
+                }
             })
         return data
     }
@@ -66,24 +56,14 @@ class RemoteDataRepository {
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
         val observable = api?.videoHomeTab()
         observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<BaseResponse<List<VideoHomeTabBean>>> {
-                override fun onComplete() {
-                    println("onComplete")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    println("onSubscribe")
-                }
-
-                override fun onNext(t: BaseResponse<List<VideoHomeTabBean>>) {
-                    println("onNext")
+            ?.subscribe(object : RxSubscribe<List<VideoHomeTabBean>>() {
+                override fun onSuccess(t: BaseResponse<List<VideoHomeTabBean>>) {
                     data.value = t
                 }
 
-                override fun onError(e: Throwable) {
-                    println("onError: $e")
-                }
+                override fun onFailed(e: Throwable) {
 
+                }
             })
         return data
     }
@@ -96,22 +76,13 @@ class RemoteDataRepository {
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
         val observable = api?.videoCategory()
         observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<BaseResponse<VideoCategoryBean>> {
-                override fun onComplete() {
-                    println("onComplete")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    println("onSubscribe")
-                }
-
-                override fun onNext(t: BaseResponse<VideoCategoryBean>) {
-                    println("onNext")
+            ?.subscribe(object : RxSubscribe<VideoCategoryBean>() {
+                override fun onSuccess(t: BaseResponse<VideoCategoryBean>) {
                     data.value = t
                 }
 
-                override fun onError(e: Throwable) {
-                    println("onError: $e")
+                override fun onFailed(e: Throwable) {
+
                 }
 
             })
@@ -126,26 +97,46 @@ class RemoteDataRepository {
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
         val observable = api?.videoCategoryDetails(id)
         observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<BaseResponse<List<VideoCategoryDetailsBean>>> {
-                override fun onComplete() {
-                    println("onComplete")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    println("onSubscribe")
-                }
-
-                override fun onNext(t: BaseResponse<List<VideoCategoryDetailsBean>>) {
-                    println("onNext")
+            ?.subscribe(object : RxSubscribe<List<VideoCategoryDetailsBean>>() {
+                override fun onSuccess(t: BaseResponse<List<VideoCategoryDetailsBean>>) {
                     data.value = t
                 }
 
-                override fun onError(e: Throwable) {
-                    println("onError: $e")
+                override fun onFailed(e: Throwable) {
+
                 }
 
             })
         return data
+    }
+
+    abstract class RxSubscribe<T> : Observer<BaseResponse<T>> {
+
+        override fun onComplete() {
+
+        }
+
+        override fun onSubscribe(d: Disposable) {
+
+        }
+
+        override fun onNext(t: BaseResponse<T>) {
+            onSuccess(t)
+        }
+
+        override fun onError(e: Throwable) {
+            onFailed(e)
+        }
+
+        /**
+         * 数据加载成功
+         */
+        abstract fun onSuccess(t: BaseResponse<T>)
+
+        /**
+         * 数据加载失败
+         */
+        abstract fun onFailed(e: Throwable)
     }
 
 }

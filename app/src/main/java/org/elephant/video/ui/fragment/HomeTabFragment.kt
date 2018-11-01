@@ -2,16 +2,11 @@ package org.elephant.video.ui.fragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.TextView
-import org.elephant.video.R
 import org.elephant.video.adapter.TabPagerAdapter
 import org.elephant.video.base.BaseFragment
 import org.elephant.video.bean.VideoHomeTabBean
@@ -19,7 +14,6 @@ import org.elephant.video.databinding.FragmentTabHomeBinding
 import org.elephant.video.network.bean.BaseResponse
 import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.HomeTabViewModel
-import org.elephant.video.viewmodel.HomeTabViewModelFactory
 
 /**
  * @author YangJ
@@ -55,22 +49,13 @@ class HomeTabFragment : BaseFragment() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // 初始化界面布局
-        if (mView == null) {
-            val binding = FragmentTabHomeBinding.inflate(inflater, container, false)
-            val viewPager = binding.viewPager
-            viewPager.adapter = mAdapter
-            mTabLayout = binding.tabLayout
-            mTabLayout?.setupWithViewPager(viewPager)
-            mView = binding.root
-        } else {
-            val parent = mView?.parent
-            if (parent != null) {
-                (parent as ViewGroup).removeView(mView)
-            }
-        }
-        return mView
+    override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
+        val binding = FragmentTabHomeBinding.inflate(inflater, container, false)
+        val viewPager = binding.viewPager
+        viewPager.adapter = mAdapter
+        mTabLayout = binding.tabLayout
+        mTabLayout?.setupWithViewPager(viewPager, true)
+        return binding.root
     }
 
     private fun notifyTabPager(names: ArrayList<String?>) {
