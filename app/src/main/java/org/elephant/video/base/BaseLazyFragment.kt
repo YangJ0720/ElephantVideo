@@ -22,7 +22,7 @@ abstract class BaseLazyFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (userVisibleHint){
+        if (userVisibleHint && !mIsFirstLoad) {
             lazyLoad()
             mIsFirstLoad = true
         }

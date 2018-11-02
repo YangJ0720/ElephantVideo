@@ -71,6 +71,7 @@ class TabPagerFragment : BaseLazyFragment() {
                     consumption?.replyCount, consumption?.shareCount))
             }
             mAdapter?.notifyItemInserted(0)
+            println("notifyItemInserted -> ${arguments?.getInt("id")}")
             mSwipeRefreshLayout?.isRefreshing = false
         })
     }
