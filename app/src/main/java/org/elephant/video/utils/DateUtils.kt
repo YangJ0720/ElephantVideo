@@ -8,6 +8,9 @@ private const val UNIT_MINUTE = 60
  */
 object DateUtils {
 
+    /**
+     * 格式化视频播放时长
+     */
     fun convertPlayDuration(duration: Int?): String? {
         return if (duration == null) {
             null

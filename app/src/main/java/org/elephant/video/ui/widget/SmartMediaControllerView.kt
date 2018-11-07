@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import org.elephant.video.R
+import org.elephant.video.utils.DateUtils
 import java.lang.ref.WeakReference
 
 private const val HANDLER_HIDE = 0
@@ -31,6 +32,7 @@ class SmartMediaControllerView : FrameLayout {
     private var mProgress: ProgressBar? = null
     private var mIvPlay: ImageView? = null
     private var mProgressBar: ProgressBar? = null
+    private var mTvDuration: TextView? = null
 
     private var mListener: OnMediaControllerListener? = null
 
@@ -60,6 +62,7 @@ class SmartMediaControllerView : FrameLayout {
         mIvPlay = view.findViewById(R.id.ivPlay)
         mIvPlay?.setOnClickListener { mListener?.onToggle(mIvPlay) }
         mProgressBar = view.findViewById(R.id.progressBar)
+        mTvDuration = view.findViewById(R.id.tvDuration)
         view.findViewById<View>(R.id.ivFull).setOnClickListener { mListener?.onFull() }
         addView(view)
     }
@@ -67,7 +70,7 @@ class SmartMediaControllerView : FrameLayout {
     /**
      * 设置视频标题
      */
-    fun setTitle(title: String) {
+    fun setTitle(title: String?) {
         mTvTitle?.text = title
     }
 
@@ -149,6 +152,7 @@ class SmartMediaControllerView : FrameLayout {
                         }
                         HANDLER_PROGRESS -> {
                             view.mProgressBar?.progress = msg.arg1
+                            view.mTvDuration?.text = DateUtils.convertPlayDuration(msg.arg1 / 1000)
                             // 发送延时消息，用于更新播放进度
                             msg.arg1 += HANDLER_PROGRESS_DELAYED.toInt()
                             sendMessageDelayed(Message.obtain(msg), HANDLER_PROGRESS_DELAYED)

@@ -1,6 +1,7 @@
 package org.elephant.video.base
 
 import android.graphics.Rect
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
@@ -13,11 +14,27 @@ import android.widget.EditText
  */
 abstract class BaseActivity : AppCompatActivity() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initData()
+        initView()
+    }
+
+    /**
+     * 初始化基础数据
+     */
+    abstract fun initData()
+
+    /**
+     * 初始化界面视图
+     */
+    abstract fun initView()
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (MotionEvent.ACTION_DOWN == ev?.action) {
             val childView = currentFocus
             if (childView != null && hideKeyboard(childView, ev.x.toInt(), ev.y.toInt())) {
-                var manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                var manager = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(childView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             }
         }

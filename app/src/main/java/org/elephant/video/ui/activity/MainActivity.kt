@@ -1,7 +1,6 @@
 package org.elephant.video.ui.activity
 
 import android.databinding.DataBindingUtil
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
@@ -18,8 +17,11 @@ import org.elephant.video.utils.FragmentManagerUtil
  */
 class MainActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initData() {
+
+    }
+
+    override fun initView() {
         // data
         val fragments = ArrayList<Fragment>(3)
         fragments.add(HomeTabFragment())
@@ -45,14 +47,11 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onTabSelected(position: Int) {
-                FragmentManagerUtil.onShow(
-                    supportFragmentManager.beginTransaction(),
-                    R.id.frameLayout, fragments[position]
-                )
+                FragmentManagerUtil.onShow(supportFragmentManager.beginTransaction(),
+                    R.id.frameLayout, fragments[position])
             }
 
         })
         mBottomNavigationBar?.selectTab(0, true)
     }
-
 }

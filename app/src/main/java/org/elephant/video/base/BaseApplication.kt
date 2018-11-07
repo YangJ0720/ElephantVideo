@@ -1,7 +1,6 @@
 package org.elephant.video.base
 
 import android.app.Application
-import com.squareup.leakcanary.LeakCanary
 
 /**
  * @author YangJ
@@ -15,6 +14,6 @@ class BaseApplication : Application() {
     }
 
     private fun initialize() {
-        LeakCanary.install(this)
+        // LeakCanary.install(this)
     }
 }

@@ -5,9 +5,13 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.media.MediaPlayer
+import android.os.Build
+import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.VideoView
 import org.elephant.video.R
@@ -20,6 +24,8 @@ class SmartVideoView : VideoView, MediaPlayer.OnPreparedListener {
 
     private var mActivity: Activity? = null
     private var mMediaController: SmartMediaControllerView? = null
+    // listener
+    private var mListener: CustomOnGlobalLayoutListener? = null
 
     constructor(context: Context?) : super(context) {
         initialize()
@@ -35,6 +41,9 @@ class SmartVideoView : VideoView, MediaPlayer.OnPreparedListener {
 
     private fun initialize() {
         mActivity = context as Activity
+        mListener = CustomOnGlobalLayoutListener()
+        viewTreeObserver.addOnGlobalLayoutListener(mListener)
+        // 设置视频播放状态监听
         setOnPreparedListener(this)
     }
 
@@ -66,6 +75,21 @@ class SmartVideoView : VideoView, MediaPlayer.OnPreparedListener {
         })
     }
 
+    /**
+     * 根据播放界面横竖屏设置布局参数
+     */
+    fun setVideoViewParams(isFull: Boolean) {
+        val window = mActivity?.window
+        layoutParams = if (isFull) {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mListener?.mHeight!!)
+        } else {
+            window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT)
+        }
+    }
+
     override fun onPrepared(mp: MediaPlayer?) {
         mMediaController?.setDuration(duration)
         mMediaController?.setProgressVisibility(View.GONE)
@@ -87,4 +111,22 @@ class SmartVideoView : VideoView, MediaPlayer.OnPreparedListener {
         mActivity = null
         mMediaController?.onDestroy()
     }
+
+    /**
+     * 播放器高度监听
+     */
+    inner class CustomOnGlobalLayoutListener : ViewTreeObserver.OnGlobalLayoutListener {
+        var mHeight = 0
+        override fun onGlobalLayout() {
+            if (mHeight == 0) {
+                mHeight = height
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+            } else {
+                viewTreeObserver.removeGlobalOnLayoutListener(this)
+            }
+        }
+    }
+
 }

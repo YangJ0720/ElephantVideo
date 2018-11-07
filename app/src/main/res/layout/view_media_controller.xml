@@ -46,11 +46,22 @@
             android:id="@+id/progressBar"
             app:layout_constraintStart_toEndOf="@id/ivPlay"
             android:layout_marginLeft="@dimen/dp_4"
-            app:layout_constraintEnd_toStartOf="@id/ivFull"
+            app:layout_constraintEnd_toStartOf="@id/tvDuration"
             android:layout_marginRight="@dimen/dp_4"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintTop_toTopOf="@id/ivFull"
             app:layout_constraintBottom_toBottomOf="@id/ivFull"/>
+
+    <TextView
+            android:text="00:00"
+            android:layout_width="wrap_content"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/ivFull"
+            android:layout_marginRight="@dimen/dp_4"
+            app:layout_constraintTop_toTopOf="@id/ivFull"
+            app:layout_constraintBottom_toBottomOf="@id/ivFull"
+            android:id="@+id/tvDuration"/>
 
     <ImageView
             android:id="@+id/ivFull"

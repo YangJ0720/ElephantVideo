@@ -15,6 +15,7 @@ import org.elephant.video.base.BaseLazyFragment
 import org.elephant.video.bean.VideoBean
 import org.elephant.video.bean.VideoCategoryDetailsBean
 import org.elephant.video.databinding.FragmentTabPagerBinding
+import org.elephant.video.listener.SmartRVScrollListener
 import org.elephant.video.network.bean.BaseResponse
 import org.elephant.video.ui.activity.PlayerActivity
 import org.elephant.video.utils.InjectorUtils
@@ -45,12 +46,11 @@ class TabPagerFragment : BaseLazyFragment() {
         mSwipeRefreshLayout = binding.refreshLayout
         mSwipeRefreshLayout?.setColorSchemeResources(R.color.colorAccent)
         mSwipeRefreshLayout?.setOnRefreshListener {
-            Handler().postDelayed({
-                mSwipeRefreshLayout?.isRefreshing = false
-            }, 3000)
+            Handler().postDelayed({ mSwipeRefreshLayout?.isRefreshing = false }, 3000)
         }
         binding.recyclerView.adapter = mAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.addOnScrollListener(SmartRVScrollListener(context!!))
         return binding.root
     }
 
@@ -71,7 +71,6 @@ class TabPagerFragment : BaseLazyFragment() {
                     consumption?.replyCount, consumption?.shareCount))
             }
             mAdapter?.notifyItemInserted(0)
-            println("notifyItemInserted -> ${arguments?.getInt("id")}")
             mSwipeRefreshLayout?.isRefreshing = false
         })
     }
