@@ -47,8 +47,13 @@ class VideoBean {
      */
     var shareCount = 0
 
+    var detail: String? = null
+    var feed: String? = null
+    var homepage: String? = null
+
     constructor(title: String?, icon: String?, duration: Int?, playUrl: String?, description: String?,
-        authorName: String?, authorIcon: String?, collectionCount: Int, replyCount: Int, shareCount: Int) {
+                authorName: String?, authorIcon: String?, collectionCount: Int, replyCount: Int, shareCount: Int,
+                detail: String?, feed: String?, homepage: String?) {
         this.title = title
         this.icon = icon
         this.duration = duration
@@ -59,5 +64,8 @@ class VideoBean {
         this.collectionCount = collectionCount
         this.replyCount = replyCount
         this.shareCount = shareCount
+        this.detail = detail
+        this.feed = feed
+        this.homepage = homepage
     }
 }

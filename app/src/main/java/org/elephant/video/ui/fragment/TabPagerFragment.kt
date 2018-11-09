@@ -66,9 +66,10 @@ class TabPagerFragment : BaseLazyFragment() {
                 val content = data?.content
                 val author = content?.data?.author
                 val consumption = content?.data?.consumption
+                val cover = content?.data?.cover
                 mData?.add(VideoBean(header?.title, header?.icon, content?.data?.duration, content?.data?.playUrl,
                     content?.data?.description, author?.name, author?.icon, consumption?.collectionCount!!,
-                    consumption?.replyCount, consumption?.shareCount))
+                    consumption?.replyCount, consumption?.shareCount, cover?.detail, cover?.feed, cover?.homepage))
             }
             mAdapter?.notifyItemInserted(0)
             mSwipeRefreshLayout?.isRefreshing = false

@@ -21,6 +21,7 @@ class VideoCategoryDetailsBean {
             inner class Data {
                 var author: Author? = null
                 var consumption: Consumption? = null
+                var cover: Cover? = null
                 var description: String? = null
                 var duration = 0
                 var playUrl: String? = null
@@ -34,6 +35,12 @@ class VideoCategoryDetailsBean {
                     var collectionCount = 0
                     var replyCount = 0
                     var shareCount = 0
+                }
+
+                inner class Cover {
+                    var detail: String? = null
+                    var feed: String? = null
+                    var homepage: String? = null
                 }
             }
         }
