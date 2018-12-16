@@ -9,6 +9,5 @@
 [下载apk点我](https://github.com/YangJ0720/ElephantVideo/blob/master/apk/app-debug.apk) 
 
 ## 效果图
-
-    <img src="https://github.com/YangJ0720/ElephantVideo/blob/master/gif/video.gif" width="480" height="800"/>
+<img src="https://github.com/YangJ0720/ElephantVideo/blob/master/gif/video.gif" width="480" height="800"/>
     
