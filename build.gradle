@@ -33,6 +33,7 @@ buildscript {
         gson_version = '2.8.5'
         baseRecyclerViewAdapterHelper_version = '2.9.42'
         glide_version = '4.8.0'
+        ijk_version = '0.8.8'
         leakcanary_version = '1.4'
         junit_version = '4.12'
         // Testing dependencies

@@ -11,6 +11,7 @@ import org.elephant.video.adapter.TabPagerAdapter
 import org.elephant.video.base.BaseFragment
 import org.elephant.video.bean.VideoHomeTabBean
 import org.elephant.video.databinding.FragmentTabHomeBinding
+import org.elephant.video.listener.SmartVPScrollListener
 import org.elephant.video.network.bean.BaseResponse
 import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.HomeTabViewModel
@@ -21,9 +22,9 @@ import org.elephant.video.viewmodel.HomeTabViewModel
  */
 class HomeTabFragment : BaseFragment() {
 
-    private var mAdapter: TabPagerAdapter? = null
+    private lateinit var mAdapter: TabPagerAdapter
 
-    private var mTabLayout: TabLayout? = null
+    private lateinit var mTabLayout: TabLayout
 
     override fun initData() {
         val labels = ArrayList<String?>()
@@ -40,10 +41,10 @@ class HomeTabFragment : BaseFragment() {
                 if (id < 0) {
                     continue
                 }
-                labels?.add(result[i].name)
-                fragments?.add(TabPagerFragment.newInstance(result[i].id))
+                labels.add(result[i].name)
+                fragments.add(TabPagerFragment.newInstance(result[i].id))
             }
-            mAdapter?.notifyDataSetChanged()
+            mAdapter.notifyDataSetChanged()
             // 刷新ViewPager数据
             notifyTabPager(labels)
         })
@@ -52,16 +53,17 @@ class HomeTabFragment : BaseFragment() {
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
         val binding = FragmentTabHomeBinding.inflate(inflater, container, false)
         val viewPager = binding.viewPager
+        viewPager.addOnPageChangeListener(SmartVPScrollListener(context!!))
         viewPager.adapter = mAdapter
         mTabLayout = binding.tabLayout
-        mTabLayout?.setupWithViewPager(viewPager, true)
+        mTabLayout.setupWithViewPager(viewPager, true)
         return binding.root
     }
 
     private fun notifyTabPager(names: ArrayList<String?>) {
-        val tabCount = mTabLayout?.tabCount!!
+        val tabCount = mTabLayout.tabCount!!
         for (i in 0 until tabCount) {
-            val tab = mTabLayout?.getTabAt(i)
+            val tab = mTabLayout.getTabAt(i)
             tab?.text = names[i]
         }
     }

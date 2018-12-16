@@ -6,32 +6,36 @@ import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import org.elephant.video.R
 import org.elephant.video.utils.DateUtils
 import java.lang.ref.WeakReference
 
-private const val HANDLER_HIDE = 0
+/**
+ * 让媒体控制器显示、隐藏
+ */
+private const val HANDLER_WHAT_HIDE = 1
 private const val HANDLER_HIDE_DELAYED = 5000L
-private const val HANDLER_PROGRESS = 1
+/**
+ * 让媒体控制器进度改变播放进度
+ */
+private const val HANDLER_PROGRESS = 2
 private const val HANDLER_PROGRESS_DELAYED = 1000L
 
 /**
  * @author YangJ 自定义媒体控制器，用于控制视频播放、暂停、窗口、全屏播放模式
  * @date 2018/11/2
  */
-class SmartMediaControllerView : FrameLayout {
+class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
 
-    private var mHandler: ControllerHandler? = null
+    private lateinit var mHandler: ControllerHandler
 
     private var mTvTitle: TextView? = null
-    private var mProgress: ProgressBar? = null
-    private var mIvPlay: ImageView? = null
     private var mProgressBar: ProgressBar? = null
+    private var mIvPlay: ImageView? = null
+    private var mSeekBar: SeekBar? = null
     private var mTvDuration: TextView? = null
 
     private var mListener: OnMediaControllerListener? = null
@@ -58,13 +62,23 @@ class SmartMediaControllerView : FrameLayout {
             }
         }
         mTvTitle = view.findViewById(R.id.tvTitle)
-        mProgress = view.findViewById(R.id.progress)
+        mProgressBar = view.findViewById(R.id.progressBar)
         mIvPlay = view.findViewById(R.id.ivPlay)
         mIvPlay?.setOnClickListener { mListener?.onToggle(mIvPlay) }
-        mProgressBar = view.findViewById(R.id.progressBar)
+        mSeekBar = view.findViewById(R.id.seekBar)
+        mSeekBar?.setOnSeekBarChangeListener(this)
         mTvDuration = view.findViewById(R.id.tvDuration)
         view.findViewById<View>(R.id.ivFull).setOnClickListener { mListener?.onFull() }
         addView(view)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        when (ev?.action) {
+            MotionEvent.ACTION_UP -> {
+                mHandler?.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     /**
@@ -78,14 +92,14 @@ class SmartMediaControllerView : FrameLayout {
      * 设置视频加载进度条
      */
     fun setProgressVisibility(visibility: Int) {
-        mProgress?.visibility = visibility
+        mProgressBar?.visibility = visibility
     }
 
     /**
      * 设置视频时长
      */
     fun setDuration(duration: Int) {
-        mProgressBar?.max = duration
+        mSeekBar?.max = duration
         postDelayedHide(true, 0)
     }
 
@@ -94,7 +108,7 @@ class SmartMediaControllerView : FrameLayout {
      */
     fun postDelayedHide(isPlaying: Boolean, currentPosition: Int) {
         if (View.VISIBLE == visibility) {
-            mHandler?.removeMessages(HANDLER_HIDE)
+            mHandler?.removeMessages(HANDLER_WHAT_HIDE)
         } else {
             visibility = View.VISIBLE
         }
@@ -104,7 +118,7 @@ class SmartMediaControllerView : FrameLayout {
         } else if (mHandler?.hasMessages(HANDLER_PROGRESS)!!) {
             mHandler?.removeMessages(HANDLER_PROGRESS)
         }
-        mHandler?.sendEmptyMessageDelayed(HANDLER_HIDE, HANDLER_HIDE_DELAYED)
+        mHandler?.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
     }
 
     /**
@@ -118,8 +132,8 @@ class SmartMediaControllerView : FrameLayout {
      * 销毁相关资源
      */
     fun onDestroy() {
-        if (mHandler?.hasMessages(HANDLER_HIDE)!!) {
-            mHandler?.removeMessages(HANDLER_HIDE)
+        if (mHandler?.hasMessages(HANDLER_WHAT_HIDE)!!) {
+            mHandler?.removeMessages(HANDLER_WHAT_HIDE)
         }
         if (mHandler?.hasMessages(HANDLER_PROGRESS)!!) {
             mHandler?.removeMessages(HANDLER_PROGRESS)
@@ -137,29 +151,43 @@ class SmartMediaControllerView : FrameLayout {
          * 点击按钮执行播放、暂停
          */
         fun onToggle(view: ImageView?)
+
+        /**
+         * 跳转到指定播放位置
+         */
+        fun onSeek(progress: Int?)
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        mHandler?.removeCallbacksAndMessages(null)
+    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {}
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        mListener?.onSeek(mSeekBar?.progress)
     }
 
     companion object {
         class ControllerHandler(private val reference: WeakReference<SmartMediaControllerView>) : Handler() {
 
             override fun handleMessage(msg: Message?) {
-                val view = reference?.get()
-                if (view != null) {
-                    when (msg?.what) {
-                        HANDLER_HIDE -> {
-                            view.visibility = View.GONE
-                            removeMessages(HANDLER_PROGRESS)
-                        }
-                        HANDLER_PROGRESS -> {
-                            view.mProgressBar?.progress = msg.arg1
-                            view.mTvDuration?.text = DateUtils.convertPlayDuration(msg.arg1 / 1000)
-                            // 发送延时消息，用于更新播放进度
-                            msg.arg1 += HANDLER_PROGRESS_DELAYED.toInt()
-                            sendMessageDelayed(Message.obtain(msg), HANDLER_PROGRESS_DELAYED)
-                        }
+                val view = reference?.get() ?: return
+                when (msg?.what) {
+                    HANDLER_WHAT_HIDE -> {
+                        view.visibility = View.INVISIBLE
+                        removeMessages(HANDLER_PROGRESS)
+                    }
+                    HANDLER_PROGRESS -> {
+                        view.mSeekBar?.progress = msg.arg1
+                        view.mTvDuration?.text = DateUtils.convertPlayDuration(msg.arg1 / 1000)
+                        // 发送延时消息，用于更新播放进度
+                        msg.arg1 += HANDLER_PROGRESS_DELAYED.toInt()
+                        sendMessageDelayed(Message.obtain(msg), HANDLER_PROGRESS_DELAYED)
                     }
                 }
             }
         }
     }
+
 }

@@ -16,13 +16,10 @@ import org.elephant.video.utils.DateUtils
  */
 class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
 
-    private var mOptionsVideo: RequestOptions? = null
-    private var mOptionsAuthor: RequestOptions? = null
+    private var mOptionsVideo: RequestOptions = RequestOptions().placeholder(R.drawable.ic_loading)
+    private var mOptionsAuthor: RequestOptions = RequestOptions.circleCropTransform()
 
-    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data) {
-        mOptionsVideo = RequestOptions().placeholder(R.drawable.ic_loading)
-        mOptionsAuthor = RequestOptions.circleCropTransform()
-    }
+    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data)
 
     override fun convert(helper: BaseViewHolder?, item: VideoBean?) {
         // 设置视频图片

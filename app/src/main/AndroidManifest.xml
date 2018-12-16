@@ -12,12 +12,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
         <!-- Glide自定义配置 -->
-        <meta-data android:name="org.elephant.video.config.SmartGlideModule"
-                   android:value="AppGlideModule"/>
+        <meta-data
+                android:name="org.elephant.video.config.SmartGlideModule"
+                android:value="AppGlideModule"/>
         <!-- 应用程序主界面 -->
-        <activity android:name=".ui.activity.MainActivity"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+                android:name=".ui.activity.MainActivity"
+                android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -25,8 +28,9 @@
             </intent-filter>
         </activity>
         <!-- 视频播放界面 -->
-        <activity android:name=".ui.activity.PlayerActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize">
+        <activity
+                android:name=".ui.activity.PlayerActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>
 
