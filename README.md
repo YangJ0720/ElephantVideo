@@ -1,6 +1,6 @@
 # 小象视频
 
-    一个播放视频的APP，使用 Android Jetpack 构建
+    一个使用 Android Jetpack 构建的播放视频APP
    
 
 ## apk下载
