@@ -14,27 +14,21 @@ import org.elephant.video.repository.RemoteDataRepository
  */
 class HomeTabViewModel(repository: RemoteDataRepository) : ViewModel() {
 
-    private var mLiveData: LiveData<BaseResponse<TodayVideoBean>>? = null
+    private val mLiveData by lazy { repository.getToDayVideo() }
 
-    private var mVideoHomeTabLiveData: LiveData<BaseResponse<List<VideoHomeTabBean>>>? = null
+    private val mVideoHomeTabLiveData by lazy { repository.getVideoHomeTab() }
 
-    private var mVideoCategoryLiveData: LiveData<BaseResponse<VideoCategoryBean>>? = null
+    private val mVideoCategoryLiveData by lazy { repository.getVideoCategory() }
 
-    init {
-        mLiveData = repository.getToDayVideo()
-        mVideoHomeTabLiveData = repository.getVideoHomeTab()
-        mVideoCategoryLiveData = repository.getVideoCategory()
-    }
-
-    fun getLiveData(): LiveData<BaseResponse<TodayVideoBean>>? {
+    fun getLiveData(): LiveData<BaseResponse<TodayVideoBean>> {
         return mLiveData
     }
 
-    fun getVideoHomeTabLiveData(): LiveData<BaseResponse<List<VideoHomeTabBean>>>? {
+    fun getVideoHomeTabLiveData(): LiveData<BaseResponse<List<VideoHomeTabBean>>> {
         return mVideoHomeTabLiveData
     }
 
-    fun getVideoCategoryLiveData(): LiveData<BaseResponse<VideoCategoryBean>>? {
+    fun getVideoCategoryLiveData(): LiveData<BaseResponse<VideoCategoryBean>> {
         return mVideoCategoryLiveData
     }
 

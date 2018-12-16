@@ -12,13 +12,9 @@ import org.elephant.video.repository.RemoteDataRepository
  */
 class TabPagerViewModel(repository: RemoteDataRepository, id: Int?) : ViewModel() {
 
-    private var mLiveData: LiveData<BaseResponse<List<VideoCategoryDetailsBean>>>? = null
+    private val mLiveData by lazy { repository.getVideoCategoryDetails(id) }
 
-    init {
-        mLiveData = repository.getVideoCategoryDetails(id)
-    }
-
-    fun getLiveData(): LiveData<BaseResponse<List<VideoCategoryDetailsBean>>>? {
+    fun getLiveData(): LiveData<BaseResponse<List<VideoCategoryDetailsBean>>> {
         return mLiveData
     }
 

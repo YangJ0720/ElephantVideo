@@ -27,15 +27,15 @@ import org.elephant.video.viewmodel.TabPagerViewModel
 class TabPagerFragment : BaseLazyFragment() {
 
     // Data
-    private var mData: ArrayList<VideoBean>? = null
-    private var mAdapter: VideoAdapter? = null
+    private lateinit var mData: ArrayList<VideoBean>
+    private lateinit var mAdapter: VideoAdapter
     // View
-    private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     override fun initData() {
         mData = ArrayList()
         mAdapter = VideoAdapter(R.layout.item_tab_home, mData)
-        mAdapter?.setOnItemClickListener { adapter, _, position ->
+        mAdapter.setOnItemClickListener { adapter, _, position ->
             val bean = adapter?.getItem(position) as VideoBean
             PlayerActivity.startActivity(context, bean?.title, bean?.playUrl, bean?.description)
         }
@@ -44,9 +44,9 @@ class TabPagerFragment : BaseLazyFragment() {
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
         val binding = FragmentTabPagerBinding.inflate(inflater, container, false)
         mSwipeRefreshLayout = binding.refreshLayout
-        mSwipeRefreshLayout?.setColorSchemeResources(R.color.colorAccent)
-        mSwipeRefreshLayout?.setOnRefreshListener {
-            Handler().postDelayed({ mSwipeRefreshLayout?.isRefreshing = false }, 3000)
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+        mSwipeRefreshLayout.setOnRefreshListener {
+            Handler().postDelayed({ mSwipeRefreshLayout.isRefreshing = false }, 3000)
         }
         binding.recyclerView.adapter = mAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -58,7 +58,7 @@ class TabPagerFragment : BaseLazyFragment() {
         // 发送视频分类详情接口请求
         val factory = InjectorUtils.provideTabPagerViewModelFactory(arguments?.getInt(ARG_PARAM_ID))
         val model = ViewModelProviders.of(this, factory).get(TabPagerViewModel::class.java)
-        model.getLiveData()?.observe(this, Observer<BaseResponse<List<VideoCategoryDetailsBean>>> { response ->
+        model.getLiveData().observe(this, Observer<BaseResponse<List<VideoCategoryDetailsBean>>> { response ->
             val result = response?.result
             result?.forEach { it ->
                 val data = it?.data
@@ -67,12 +67,12 @@ class TabPagerFragment : BaseLazyFragment() {
                 val author = content?.data?.author
                 val consumption = content?.data?.consumption
                 val cover = content?.data?.cover
-                mData?.add(VideoBean(header?.title, header?.icon, content?.data?.duration, content?.data?.playUrl,
+                mData.add(VideoBean(header?.title, header?.icon, content?.data?.duration, content?.data?.playUrl,
                     content?.data?.description, author?.name, author?.icon, consumption?.collectionCount!!,
                     consumption?.replyCount, consumption?.shareCount, cover?.detail, cover?.feed, cover?.homepage))
             }
-            mAdapter?.notifyItemInserted(0)
-            mSwipeRefreshLayout?.isRefreshing = false
+            mAdapter.notifyItemInserted(0)
+            mSwipeRefreshLayout.isRefreshing = false
         })
     }
 

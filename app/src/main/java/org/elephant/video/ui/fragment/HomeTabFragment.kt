@@ -33,7 +33,7 @@ class HomeTabFragment : BaseFragment() {
         // 请求视频大纲获取接口
         val factory = InjectorUtils.provideHomeTabViewModelFactory()
         val model = ViewModelProviders.of(this, factory).get(HomeTabViewModel::class.java)
-        model.getVideoHomeTabLiveData()?.observe(this, Observer<BaseResponse<List<VideoHomeTabBean>>> { response ->
+        model.getVideoHomeTabLiveData().observe(this, Observer<BaseResponse<List<VideoHomeTabBean>>> { response ->
             val result = response?.result
             val size = result?.size
             for (i in 0 until size!!) {
