@@ -1,6 +1,8 @@
 # 小象视频
 
-    一个使用 Android Jetpack 构建的播放视频APP
+    一个播放视频的APP，使用 Android Jetpack 构建
+    
+    本APP使用的接口均来自开源社区 https://www.apiopen.top/
    
 
 ## apk下载
@@ -8,5 +10,5 @@
 
 ## 效果图
 
-    后续会上传效果图，这里先记录一下我使用的录屏软件：LICEcap
+    <img src="https://github.com/YangJ0720/ElephantVideo/blob/master/gif/video.gif" width="480" height="800"/>
     
