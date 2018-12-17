@@ -16,10 +16,26 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <!-- 圆形头像主题样式 -->
+    <!-- 视频列表 -> 圆形头像主题样式 -->
     <style name="CircleIconTheme">
         <item name="android:layout_width">20dp</item>
         <item name="android:layout_height">20dp</item>
+    </style>
+
+    <!-- 更换头像选择对话框样式 -->
+    <style name="PortraitPopupWindowTheme">
+        <item name="android:windowExitAnimation">@anim/popup_anim_hide</item>
+        <item name="android:windowEnterAnimation">@anim/popup_anim_show</item>
+    </style>
+
+    <!-- 更换头像选择对话框按钮样式 -->
+    <style name="PortraitSelectItemTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/dp_20</item>
+        <item name="android:paddingBottom">@dimen/dp_20</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
 </resources>

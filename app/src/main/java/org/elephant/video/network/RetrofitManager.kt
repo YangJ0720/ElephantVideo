@@ -23,9 +23,7 @@ class RetrofitManager private constructor() {
         val INSTANCE = RetrofitManager()
     }
 
-    private var mRetrofit: Retrofit? = null
-
-    init {
+    private val mRetrofit by lazy {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(RetrofitConfig.TIMEOUT, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
@@ -34,14 +32,14 @@ class RetrofitManager private constructor() {
             builder.addInterceptor(interceptor)
         }
         val url = HttpUrl.parse(RetrofitConfig.HOST)
-        mRetrofit = Retrofit.Builder().baseUrl(url)
-                .client(builder.build())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build()
+        Retrofit.Builder().baseUrl(url)
+            .client(builder.build())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create()).build()
     }
 
-    fun <T> create(cls: Class<T>): T? {
-        return mRetrofit?.create(cls)
+    fun <T> create(cls: Class<T>): T {
+        return mRetrofit.create(cls)
     }
 
 }

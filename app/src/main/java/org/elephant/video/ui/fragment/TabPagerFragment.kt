@@ -13,10 +13,8 @@ import org.elephant.video.R
 import org.elephant.video.adapter.VideoAdapter
 import org.elephant.video.base.BaseLazyFragment
 import org.elephant.video.bean.VideoBean
-import org.elephant.video.bean.VideoCategoryDetailsBean
 import org.elephant.video.databinding.FragmentTabPagerBinding
 import org.elephant.video.listener.SmartRVScrollListener
-import org.elephant.video.network.bean.BaseResponse
 import org.elephant.video.ui.activity.PlayerActivity
 import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.TabPagerViewModel
@@ -49,6 +47,7 @@ class TabPagerFragment : BaseLazyFragment() {
             Handler().postDelayed({ mSwipeRefreshLayout.isRefreshing = false }, 3000)
         }
         binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.addOnScrollListener(SmartRVScrollListener(context!!))
         return binding.root
@@ -58,19 +57,8 @@ class TabPagerFragment : BaseLazyFragment() {
         // 发送视频分类详情接口请求
         val factory = InjectorUtils.provideTabPagerViewModelFactory(arguments?.getInt(ARG_PARAM_ID))
         val model = ViewModelProviders.of(this, factory).get(TabPagerViewModel::class.java)
-        model.getLiveData().observe(this, Observer<BaseResponse<List<VideoCategoryDetailsBean>>> { response ->
-            val result = response?.result
-            result?.forEach { it ->
-                val data = it?.data
-                val header = data?.header
-                val content = data?.content
-                val author = content?.data?.author
-                val consumption = content?.data?.consumption
-                val cover = content?.data?.cover
-                mData.add(VideoBean(header?.title, header?.icon, content?.data?.duration, content?.data?.playUrl,
-                    content?.data?.description, author?.name, author?.icon, consumption?.collectionCount!!,
-                    consumption?.replyCount, consumption?.shareCount, cover?.detail, cover?.feed, cover?.homepage))
-            }
+        model.getLiveData().observe(this, Observer<List<VideoBean>> { response ->
+            mData.addAll(response!!)
             mAdapter.notifyItemInserted(0)
             mSwipeRefreshLayout.isRefreshing = false
         })

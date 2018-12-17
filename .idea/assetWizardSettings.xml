@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_play_arrow_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/Android%20Studio/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_account_circle_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -30,11 +30,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="height" value="80" />
-                            <entry key="outputName" value="ic_load_failed" />
+                            <entry key="outputName" value="ic_scan" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Dell\Desktop\小象logo\tupianjiazaishibai03.svg" />
-                            <entry key="width" value="80" />
+                            <entry key="sourceFile" value="C:\Users\Administrator\Desktop\YDUI-二维码扫描.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -2,8 +2,7 @@ package org.elephant.video.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import org.elephant.video.bean.VideoCategoryDetailsBean
-import org.elephant.video.network.bean.BaseResponse
+import org.elephant.video.bean.VideoBean
 import org.elephant.video.repository.RemoteDataRepository
 
 /**
@@ -12,10 +11,9 @@ import org.elephant.video.repository.RemoteDataRepository
  */
 class TabPagerViewModel(repository: RemoteDataRepository, id: Int?) : ViewModel() {
 
-    private val mLiveData by lazy { repository.getVideoCategoryDetails(id) }
+    private val mLiveData by lazy { repository.getVideoBean(id) }
 
-    fun getLiveData(): LiveData<BaseResponse<List<VideoCategoryDetailsBean>>> {
+    fun getLiveData(): LiveData<List<VideoBean>> {
         return mLiveData
     }
-
 }

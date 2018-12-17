@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:showDividers="middle"
+              android:divider="@android:drawable/divider_horizontal_bright"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:text="@string/portrait_change_by_photo"
+            style="@style/PortraitSelectItemTheme"
+            android:id="@+id/tvPhoto"/>
+
+    <TextView
+            android:text="@string/portrait_change_by_camera"
+            style="@style/PortraitSelectItemTheme"
+            android:id="@+id/tvCamera"/>
+
+    <TextView
+            android:text="@string/cancel"
+            style="@style/PortraitSelectItemTheme"
+            android:id="@+id/tvCancel"/>
+
+</LinearLayout>

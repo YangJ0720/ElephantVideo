@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">小象视频</string>
+    <string name="cancel">取消</string>
 
+    <!-- Home -->
     <string name="tab_label_home">视频</string>
     <string name="tab_label_find">发现</string>
     <string name="tab_label_person">我的</string>
 
     <string name="tab_label_play_details">简介</string>
     <string name="tab_label_play_comment">评论</string>
+
+    <!-- Photo -->
+    <string name="portrait_change_by_photo">从相册选择图片</string>
+    <string name="portrait_change_by_camera">拍照</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

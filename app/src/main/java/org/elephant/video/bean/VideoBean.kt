@@ -51,21 +51,50 @@ class VideoBean {
     var feed: String? = null
     var homepage: String? = null
 
-    constructor(title: String?, icon: String?, duration: Int?, playUrl: String?, description: String?,
-                authorName: String?, authorIcon: String?, collectionCount: Int, replyCount: Int, shareCount: Int,
-                detail: String?, feed: String?, homepage: String?) {
-        this.title = title
-        this.icon = icon
-        this.duration = duration
-        this.playUrl = playUrl
-        this.description = description
-        this.authorName = authorName
-        this.authorIcon = authorIcon
-        this.collectionCount = collectionCount
-        this.replyCount = replyCount
-        this.shareCount = shareCount
-        this.detail = detail
-        this.feed = feed
-        this.homepage = homepage
+    companion object {
+
+        /**
+         * 对服务端返回数据进行转换
+         */
+        fun convert(data: VideoCategoryDetailsBean.Data?): VideoBean {
+            val bean = VideoBean()
+            data?.let { it ->
+                // header
+                val header = it.header
+                header?.let { h ->
+                    bean.title = h.title
+                    bean.icon = h.icon
+                }
+                // content data
+                val contentData = it.content?.data
+                contentData?.let { d ->
+                    bean.duration = d.duration
+                    bean.playUrl = d.playUrl
+                    bean.description = d.description
+                    // author
+                    val author = d.author
+                    author?.let { a ->
+                        bean.authorName = a.name
+                        bean.authorIcon = a.icon
+                    }
+                    // consumption
+                    val consumption = d.consumption
+                    consumption?.let { c ->
+                        bean.collectionCount = c.collectionCount
+                        bean.replyCount = c.replyCount
+                        bean.shareCount = c.shareCount
+                    }
+                    // cover
+                    val cover = d.cover
+                    cover?.let { c ->
+                        bean.detail = c.detail
+                        bean.feed = c.feed
+                        bean.homepage = c.homepage
+                    }
+                }
+            }
+            return bean
+        }
     }
+
 }

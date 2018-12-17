@@ -6,11 +6,8 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.elephant.video.bean.*
 import org.elephant.video.network.bean.BaseResponse
-import org.elephant.video.bean.TodayVideoBean
-import org.elephant.video.bean.VideoCategoryBean
-import org.elephant.video.bean.VideoCategoryDetailsBean
-import org.elephant.video.bean.VideoHomeTabBean
 import yangj.mvvm.RetrofitApi
 import yangj.mvvm.RetrofitManager
 
@@ -34,9 +31,9 @@ class RemoteDataRepository {
     fun getToDayVideo(): MutableLiveData<BaseResponse<TodayVideoBean>> {
         val data = MutableLiveData<BaseResponse<TodayVideoBean>>()
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
-        val observable = api?.toDayVideo()
-        observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : RxSubscribe<TodayVideoBean>() {
+        val observable = api.toDayVideo()
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : RxSubscribe<TodayVideoBean>() {
                 override fun onSuccess(t: BaseResponse<TodayVideoBean>) {
                     data.value = t
                 }
@@ -54,9 +51,9 @@ class RemoteDataRepository {
     fun getVideoHomeTab(): LiveData<BaseResponse<List<VideoHomeTabBean>>> {
         val data = MutableLiveData<BaseResponse<List<VideoHomeTabBean>>>()
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
-        val observable = api?.videoHomeTab()
-        observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : RxSubscribe<List<VideoHomeTabBean>>() {
+        val observable = api.videoHomeTab()
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : RxSubscribe<List<VideoHomeTabBean>>() {
                 override fun onSuccess(t: BaseResponse<List<VideoHomeTabBean>>) {
                     data.value = t
                 }
@@ -74,9 +71,9 @@ class RemoteDataRepository {
     fun getVideoCategory(): MutableLiveData<BaseResponse<VideoCategoryBean>> {
         val data = MutableLiveData<BaseResponse<VideoCategoryBean>>()
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
-        val observable = api?.videoCategory()
-        observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : RxSubscribe<VideoCategoryBean>() {
+        val observable = api.videoCategory()
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : RxSubscribe<VideoCategoryBean>() {
                 override fun onSuccess(t: BaseResponse<VideoCategoryBean>) {
                     data.value = t
                 }
@@ -92,14 +89,23 @@ class RemoteDataRepository {
     /**
      * 视频分类详情接口
      */
-    fun getVideoCategoryDetails(id: Int?): MutableLiveData<BaseResponse<List<VideoCategoryDetailsBean>>> {
-        val data = MutableLiveData<BaseResponse<List<VideoCategoryDetailsBean>>>()
+    fun getVideoBean(id: Int?): MutableLiveData<List<VideoBean>> {
+        val data = MutableLiveData<List<VideoBean>>()
         val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
-        val observable = api?.videoCategoryDetails(id)
-        observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : RxSubscribe<List<VideoCategoryDetailsBean>>() {
+        val observable = api.videoCategoryDetails(id)
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : RxSubscribe<List<VideoCategoryDetailsBean>>() {
                 override fun onSuccess(t: BaseResponse<List<VideoCategoryDetailsBean>>) {
-                    data.value = t
+                    if (t.result == null) {
+                        data.value = ArrayList(0)
+                    } else {
+                        val list = ArrayList<VideoBean>(t.result!!.size)
+                        t.result!!.forEach { it ->
+                            val data = it.data
+                            list.add(VideoBean.convert(data))
+                        }
+                        data.value = list
+                    }
                 }
 
                 override fun onFailed(e: Throwable) {

@@ -2,6 +2,7 @@
 <resources>
 
     <!-- dp -->
+    <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
 
