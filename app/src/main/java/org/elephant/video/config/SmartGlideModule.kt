@@ -15,10 +15,12 @@ import com.bumptech.glide.module.AppGlideModule
 class SmartGlideModule: AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-
+        // 设置缓存大小
+        // builder.setMemoryCache(LruResourceCache(50 * 1024 * 1024))
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-
+        // 设置缓存级别
+        // glide.setMemoryCategory(MemoryCategory.HIGH)
     }
 }

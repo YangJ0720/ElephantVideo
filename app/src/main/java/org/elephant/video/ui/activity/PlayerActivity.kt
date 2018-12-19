@@ -24,7 +24,7 @@ class PlayerActivity : BaseActivity() {
 
     private var mTitle: String? = null
     private var mPlayUrl: String? = null
-    private var mFragments: ArrayList<Fragment>? = null
+    private lateinit var mFragments: ArrayList<Fragment>
 
     private lateinit var mVideoView: SmartVideoView
 

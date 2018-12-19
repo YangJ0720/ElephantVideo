@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import org.elephant.video.adapter.TabPagerAdapter
 import org.elephant.video.base.BaseFragment
 import org.elephant.video.bean.VideoHomeTabBean
@@ -29,7 +30,7 @@ class HomeTabFragment : BaseFragment() {
     override fun initData() {
         val labels = ArrayList<String?>()
         val fragments = ArrayList<Fragment>()
-        mAdapter = TabPagerAdapter(fragmentManager, fragments)
+        mAdapter = TabPagerAdapter(context!!, fragmentManager, fragments)
         // 请求视频大纲获取接口
         val factory = InjectorUtils.provideHomeTabViewModelFactory()
         val model = ViewModelProviders.of(this, factory).get(HomeTabViewModel::class.java)
@@ -57,11 +58,12 @@ class HomeTabFragment : BaseFragment() {
         viewPager.adapter = mAdapter
         mTabLayout = binding.tabLayout
         mTabLayout.setupWithViewPager(viewPager, true)
+        binding.ivHistory.setOnClickListener { Glide.get(context!!).clearMemory() }
         return binding.root
     }
 
     private fun notifyTabPager(names: ArrayList<String?>) {
-        val tabCount = mTabLayout.tabCount!!
+        val tabCount = mTabLayout.tabCount
         for (i in 0 until tabCount) {
             val tab = mTabLayout.getTabAt(i)
             tab?.text = names[i]

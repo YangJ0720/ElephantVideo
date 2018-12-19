@@ -16,37 +16,37 @@ import org.elephant.video.utils.DateUtils
  */
 class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
 
-    private var mOptionsVideo: RequestOptions = RequestOptions().placeholder(R.drawable.ic_loading)
-    private var mOptionsAuthor: RequestOptions = RequestOptions.circleCropTransform()
+    private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading) }
+    private val mOptionsAuthor by lazy { RequestOptions.circleCropTransform() }
 
     constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data)
 
-    override fun convert(helper: BaseViewHolder?, item: VideoBean?) {
+    override fun convert(helper: BaseViewHolder, item: VideoBean) {
         // 设置视频图片
-        val ivIcon = helper?.getView<ImageView>(R.id.ivIcon)
+        val ivIcon = helper.getView<ImageView>(R.id.ivIcon)
         if (ivIcon != null) {
-            var homepage = Glide.with(mContext).load(item?.homepage).apply(mOptionsVideo!!)
-            val feed = Glide.with(mContext).load(item?.feed).apply(mOptionsVideo!!).error(homepage)
-            Glide.with(mContext).load(item?.detail).error(feed).apply(mOptionsVideo!!).into(ivIcon)
+            var homepage = Glide.with(mContext).load(item.homepage).apply(mOptionsVideo)
+            val feed = Glide.with(mContext).load(item.feed).apply(mOptionsVideo).error(homepage)
+            Glide.with(mContext).asDrawable().load(item.detail).error(feed).apply(mOptionsVideo).into(ivIcon)
         }
         // 设置视频标题
-        val tvTitle = helper?.getView<TextView>(R.id.tvTitle)
-        tvTitle?.text = item?.title
+        val tvTitle = helper.getView<TextView>(R.id.tvTitle)
+        tvTitle.text = item.title
         // 设置视频时长
-        val duration = DateUtils.convertPlayDuration(item?.duration)
+        val duration = DateUtils.convertPlayDuration(item.duration)
         if (duration != null) {
-            val tvDuration = helper?.getView<TextView>(R.id.tvDuration)
-            tvDuration?.text = duration
+            val tvDuration = helper.getView<TextView>(R.id.tvDuration)
+            tvDuration.text = duration
         }
         // 设置视频作者姓名
-        helper?.getView<TextView>(R.id.tvAuthorName)?.text = item?.authorName
+        helper.getView<TextView>(R.id.tvAuthorName).text = item.authorName
         // 设置视频作者头像
-        val ivAuthorIcon = helper?.getView<ImageView>(R.id.ivAuthorIcon)
+        val ivAuthorIcon = helper.getView<ImageView>(R.id.ivAuthorIcon)
         if (ivAuthorIcon != null) {
-            Glide.with(mContext).load(item?.authorIcon).apply(mOptionsAuthor!!).into(ivAuthorIcon)
+            Glide.with(mContext).asDrawable().load(item.authorIcon).apply(mOptionsAuthor).into(ivAuthorIcon)
         }
         // 设置收藏、评论、分享次数
-        helper?.getView<ConsumptionView>(R.id.view)?.setCount(item?.collectionCount!!, item?.replyCount!!, item?.shareCount!!)
+        helper.getView<ConsumptionView>(R.id.view).setCount(item.collectionCount, item.replyCount, item.shareCount)
     }
 
 }
