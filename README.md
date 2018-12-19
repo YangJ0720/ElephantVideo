@@ -1,8 +1,12 @@
 # 小象视频
 
     一个播放视频的APP，使用 Android Jetpack 构建
+    使用业余时间提交代码，会逐渐把功能补齐
     
     本APP使用的接口均来自开源社区 https://www.apiopen.top/
+    
+    感谢 https://github.com/zhangzhichaolove 提供相关接口
+
    
 
 ## apk下载
