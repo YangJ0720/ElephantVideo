@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import org.elephant.video.adapter.TabPagerAdapter
 import org.elephant.video.base.BaseFragment
 import org.elephant.video.bean.VideoHomeTabBean
@@ -58,7 +57,6 @@ class HomeTabFragment : BaseFragment() {
         viewPager.adapter = mAdapter
         mTabLayout = binding.tabLayout
         mTabLayout.setupWithViewPager(viewPager, true)
-        binding.ivHistory.setOnClickListener { Glide.get(context!!).clearMemory() }
         return binding.root
     }
 

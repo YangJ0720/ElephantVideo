@@ -3,7 +3,6 @@ package org.elephant.video.utils
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -39,18 +38,6 @@ class PortraitUtils {
                 FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
             } else {
                 Uri.fromFile(file)
-            }
-        }
-
-        /**
-         * 从系统裁剪返回的数据中获取bitmap
-         */
-        fun getBitmapByCrop(context: Context?, data: Uri): Bitmap {
-            return if (data == null) {
-                val path = createOutputFile(context).absolutePath
-                BitmapFactory.decodeFile(path)
-            } else {
-                BitmapFactory.decodeFile(data.path)
             }
         }
 

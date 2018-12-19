@@ -23,6 +23,10 @@ class CircleImageView : ImageView {
         Glide.with(this).load(bm).apply(mOptions).into(this)
     }
 
+    fun setImageFileByGlide(path: String?) {
+        Glide.with(this).load(path).apply(mOptions).into(this)
+    }
+
     fun setImageDrawableByGlide(drawable: Drawable?) {
         Glide.with(this).load(drawable).apply(mOptions).into(this)
     }

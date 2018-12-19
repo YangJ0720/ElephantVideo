@@ -58,8 +58,12 @@ class PersonTabFragment : BaseFragment() {
                 }
                 PortraitUtils.REQUEST_CODE_PICK_CROP -> {
                     data?.let {
-                        val bitmap = PortraitUtils.getBitmapByCrop(context!!, it.data)
-                        mIvPhoto.setImageBitmapByGlide(bitmap)
+                        val path = if (it.data == null) {
+                            PortraitUtils.createOutputFile(context).absolutePath
+                        } else {
+                            it.data.path
+                        }
+                        mIvPhoto.setImageFileByGlide(path)
                     }
                 }
             }

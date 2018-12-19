@@ -25,8 +25,8 @@ class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
         // 设置视频图片
         val ivIcon = helper.getView<ImageView>(R.id.ivIcon)
         if (ivIcon != null) {
-            var homepage = Glide.with(mContext).load(item.homepage).apply(mOptionsVideo)
-            val feed = Glide.with(mContext).load(item.feed).apply(mOptionsVideo).error(homepage)
+            var homepage = Glide.with(mContext).asDrawable().load(item.homepage).apply(mOptionsVideo)
+            val feed = Glide.with(mContext).asDrawable().load(item.feed).apply(mOptionsVideo).error(homepage)
             Glide.with(mContext).asDrawable().load(item.detail).error(feed).apply(mOptionsVideo).into(ivIcon)
         }
         // 设置视频标题
