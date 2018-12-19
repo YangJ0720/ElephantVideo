@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
+import org.elephant.video.ui.fragment.TabPagerFragment
 
 /**
  * @author YangJ
@@ -31,9 +31,18 @@ class TabPagerAdapter : FragmentPagerAdapter {
         return mFragments.size
     }
 
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        if (mContext != null) {
+            val fragment = mFragments[position] as TabPagerFragment
+            fragment.reload()
+        }
+        return super.instantiateItem(container, position)
+    }
+
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        mContext?.let {
-            Glide.get(it).clearMemory()
+        if (mContext != null) {
+            val fragment = mFragments[position] as TabPagerFragment
+            fragment.clearMemory()
         }
     }
 
