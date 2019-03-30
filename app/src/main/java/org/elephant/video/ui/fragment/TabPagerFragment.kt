@@ -3,8 +3,6 @@ package org.elephant.video.ui.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,6 +16,7 @@ import org.elephant.video.bean.VideoBean
 import org.elephant.video.databinding.FragmentTabPagerBinding
 import org.elephant.video.listener.SmartRVScrollListener
 import org.elephant.video.ui.activity.PlayerActivity
+import org.elephant.video.ui.widget.RefreshLayout
 import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.TabPagerViewModel
 
@@ -30,12 +29,12 @@ class TabPagerFragment : BaseLazyFragment() {
     private lateinit var mData: ArrayList<VideoBean>
     private var mAdapter: VideoAdapter? = null
     // View
-    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mRefreshLayout: RefreshLayout
     private lateinit var mRecyclerView: RecyclerView
 
     override fun initData() {
         mData = ArrayList()
-        mAdapter = VideoAdapter(R.layout.item_tab_home, mData)
+        mAdapter = VideoAdapter(context, R.layout.item_tab_home, mData)
         mAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = adapter.getItem(position) as VideoBean
             PlayerActivity.startActivity(context, bean.title, bean.playUrl, bean.description)
@@ -44,11 +43,12 @@ class TabPagerFragment : BaseLazyFragment() {
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
         val binding = FragmentTabPagerBinding.inflate(inflater, container, false)
-        mSwipeRefreshLayout = binding.refreshLayout
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
-        mSwipeRefreshLayout.setOnRefreshListener {
-            Handler().postDelayed({ mSwipeRefreshLayout.isRefreshing = false }, 3000)
-        }
+        mRefreshLayout = binding.refreshLayout
+        mRefreshLayout.setOnRetryClickListener(object : RefreshLayout.OnRetryClickListener {
+            override fun onRetry() {
+                requestVideoList()
+            }
+        })
         mRecyclerView = binding.recyclerView
         mRecyclerView.adapter = mAdapter
         mRecyclerView.setHasFixedSize(true)
@@ -58,36 +58,53 @@ class TabPagerFragment : BaseLazyFragment() {
     }
 
     override fun lazyLoad() {
+        requestVideoList()
+    }
+
+    private fun requestVideoList() {
+        // 显示正在加载数据
+        mRefreshLayout.showLoading(true)
         // 发送视频分类详情接口请求
         val factory = InjectorUtils.provideTabPagerViewModelFactory(arguments?.getInt(ARG_PARAM_ID))
         val model = ViewModelProviders.of(this, factory).get(TabPagerViewModel::class.java)
         model.getLiveData().observe(this, Observer<List<VideoBean>> { response ->
-            response?.let {
-                mData.addAll(it)
-                mAdapter?.notifyItemInserted(0)
+            // 隐藏正在加载数据
+            mRefreshLayout.showLoading(false)
+            if (response == null) {
+                // 显示加载数据失败
+                mRefreshLayout.showLoadFail(true)
+            } else {
+                if (response.isNotEmpty()) {
+                    mData.addAll(response)
+                    mAdapter?.notifyItemInserted(0)
+                } else {
+                    // 显示暂无数据
+                    mRefreshLayout.showLoadEmpty(true)
+                }
             }
-            mSwipeRefreshLayout.isRefreshing = false
         })
     }
 
     fun reload() {
-        mAdapter?.let {
-            if (it.itemCount > 0) {
-                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-                val firstPosition = layoutManager.findFirstVisibleItemPosition()
-                val lastPosition = layoutManager.findLastVisibleItemPosition()
-                it.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition)
-            }
+        mAdapter?.let { adapter ->
+            if (adapter.itemCount <= 0) return
+            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+            val firstPosition = layoutManager.findFirstVisibleItemPosition()
+            val lastPosition = layoutManager.findLastVisibleItemPosition()
+            adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
         }
     }
 
     fun clearMemory() {
-        val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-        val firstPosition = layoutManager.findFirstVisibleItemPosition()
-        val lastPosition = layoutManager.findLastVisibleItemPosition()
-        for (i in firstPosition until lastPosition) {
-            val itemView = mAdapter?.getViewByPosition(mRecyclerView, i, R.id.ivIcon) ?: continue
-            Glide.with(context!!).clear(itemView)
+        mAdapter?.let { adapter ->
+            if (adapter.itemCount <= 0) return
+            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+            val firstPosition = layoutManager.findFirstVisibleItemPosition()
+            val lastPosition = layoutManager.findLastVisibleItemPosition()
+            for (i in firstPosition..lastPosition) {
+                val itemView = adapter.getViewByPosition(mRecyclerView, i, R.id.ivIcon) ?: continue
+                Glide.with(context!!).clear(itemView)
+            }
         }
     }
 

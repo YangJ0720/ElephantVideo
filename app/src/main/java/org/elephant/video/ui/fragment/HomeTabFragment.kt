@@ -34,19 +34,20 @@ class HomeTabFragment : BaseFragment() {
         val factory = InjectorUtils.provideHomeTabViewModelFactory()
         val model = ViewModelProviders.of(this, factory).get(HomeTabViewModel::class.java)
         model.getVideoHomeTabLiveData().observe(this, Observer<BaseResponse<List<VideoHomeTabBean>>> { response ->
-            val result = response?.result
-            val size = result?.size
-            for (i in 0 until size!!) {
-                val id = result[i].id
-                if (id < 0) {
-                    continue
+            response?.let { rsp ->
+                val result = rsp.result
+                val size = result?.size
+                if (size!! <= 0) {
+                    return@let
                 }
-                labels.add(result[i].name)
-                fragments.add(TabPagerFragment.newInstance(result[i].id))
+                for (i in 0 until size!!) {
+                    labels.add(result[i].name)
+                    fragments.add(TabPagerFragment.newInstance(result[i].id))
+                }
+                mAdapter.notifyDataSetChanged()
+                // 刷新ViewPager数据
+                notifyTabPager(labels)
             }
-            mAdapter.notifyDataSetChanged()
-            // 刷新ViewPager数据
-            notifyTabPager(labels)
         })
     }
 

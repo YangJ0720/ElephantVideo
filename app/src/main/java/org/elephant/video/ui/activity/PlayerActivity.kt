@@ -30,9 +30,11 @@ class PlayerActivity : BaseActivity() {
 
     override fun initData() {
         val bundle = intent.extras
-        mTitle = bundle.getString(ARG_PARAM_TITLE)
-        mPlayUrl = bundle.getString(ARG_PARAM_PLAY_URL)
-        mFragments = arrayListOf(PlayDetailsFragment.newInstance("1", "1"), PlayCommentFragment.newInstance("1", "1"))
+        bundle?.let {
+            mTitle = it.getString(ARG_PARAM_TITLE)
+            mPlayUrl = it.getString(ARG_PARAM_PLAY_URL)
+            mFragments = arrayListOf(PlayDetailsFragment.newInstance("1", "1"), PlayCommentFragment.newInstance("1", "1"))
+        }
     }
 
     override fun initView() {

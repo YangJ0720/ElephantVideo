@@ -39,7 +39,7 @@ class RemoteDataRepository {
                 }
 
                 override fun onFailed(e: Throwable) {
-
+                    data.value = null
                 }
             })
         return data
@@ -59,7 +59,7 @@ class RemoteDataRepository {
                 }
 
                 override fun onFailed(e: Throwable) {
-
+                    data.value = null
                 }
             })
         return data
@@ -79,7 +79,7 @@ class RemoteDataRepository {
                 }
 
                 override fun onFailed(e: Throwable) {
-
+                    data.value = null
                 }
 
             })
@@ -97,7 +97,7 @@ class RemoteDataRepository {
             .subscribe(object : RxSubscribe<List<VideoCategoryDetailsBean>>() {
                 override fun onSuccess(t: BaseResponse<List<VideoCategoryDetailsBean>>) {
                     if (t.result == null) {
-                        data.value = ArrayList(0)
+                        data.value = null
                     } else {
                         val list = ArrayList<VideoBean>(t.result!!.size)
                         t.result!!.forEach { it ->
@@ -109,7 +109,7 @@ class RemoteDataRepository {
                 }
 
                 override fun onFailed(e: Throwable) {
-
+                    data.value = null
                 }
 
             })

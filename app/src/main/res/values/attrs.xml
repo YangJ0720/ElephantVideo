@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- RefreshLayout -->
+    <declare-styleable name="RefreshLayoutStyleable">
+        <!-- 正在加载数据 -->
+        <attr name="loading" format="reference"/>
+        <!-- 暂无数据 -->
+        <attr name="load_data_empty" format="reference"/>
+        <!-- 加载失败 -->
+        <attr name="load_data_fail" format="reference"/>
+    </declare-styleable>
     
     <declare-styleable name="ConsumptionViewStyleable">
         <!-- 评论、收藏、分享图标之间的间距 -->

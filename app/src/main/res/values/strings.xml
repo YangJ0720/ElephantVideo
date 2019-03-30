@@ -14,6 +14,11 @@
     <string name="portrait_change_by_photo">从相册选择图片</string>
     <string name="portrait_change_by_camera">拍照</string>
 
+    <!-- RefreshLayout -->
+    <string name="loading">正在加载数据</string>
+    <string name="load_data_empty">暂无数据</string>
+    <string name="load_data_fail">加载失败，点击重试</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

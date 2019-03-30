@@ -25,7 +25,8 @@
                     android:layout_height="match_parent"
                     android:inputType="textPersonName"
                     android:background="@android:color/transparent"
-                    android:ems="10" android:layout_weight="1"/>
+                    android:ems="10"
+                    android:layout_weight="1"/>
 
             <ImageView
                     android:id="@+id/ivGame"

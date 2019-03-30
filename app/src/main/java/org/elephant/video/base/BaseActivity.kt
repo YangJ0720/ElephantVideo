@@ -1,5 +1,6 @@
 package org.elephant.video.base
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -34,8 +35,10 @@ abstract class BaseActivity : AppCompatActivity() {
         if (MotionEvent.ACTION_DOWN == ev?.action) {
             val childView = currentFocus
             if (childView != null && hideKeyboard(childView, ev.x.toInt(), ev.y.toInt())) {
-                var manager = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                manager.hideSoftInputFromWindow(childView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                var manager = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if(manager.hideSoftInputFromWindow(childView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)){
+                    return false
+                }
             }
         }
         return super.dispatchTouchEvent(ev)

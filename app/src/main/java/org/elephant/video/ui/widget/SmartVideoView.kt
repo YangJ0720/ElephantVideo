@@ -30,15 +30,15 @@ class SmartVideoView : FrameLayout {
     // listener
     private lateinit var mListener: CustomOnGlobalLayoutListener
 
-    constructor(context: Context?) : super(context) {
+    constructor(context: Context) : super(context) {
         initialize()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         initialize()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         initialize()
     }
 
@@ -52,8 +52,8 @@ class SmartVideoView : FrameLayout {
         mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
         // 设置监听
         mMediaPlayer.setOnPreparedListener { player ->
-            mMediaController?.setDuration(mMediaPlayer.duration.toInt())
-            mMediaController?.setProgressVisibility(View.GONE)
+            mMediaController.setDuration(mMediaPlayer.duration.toInt())
+            mMediaController.setProgressVisibility(View.GONE)
             player?.start()
         }
         mMediaPlayer.setOnCompletionListener { println("onCompletion") }
@@ -153,7 +153,7 @@ class SmartVideoView : FrameLayout {
         val window = mActivity.window
         layoutParams = if (isFull) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mListener.mHeight!!)
+            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mListener.mHeight)
         } else {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
             ConstraintLayout.LayoutParams(
