@@ -43,8 +43,8 @@ dependencies {
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
-    // RxPermissions
-    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rxpermissions_version"
+    // Permissions
+    implementation "com.github.YangJ0720:SimplePermission:$rootProject.permissions_version"
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"

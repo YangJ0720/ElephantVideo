@@ -1,5 +1,6 @@
 package org.elephant.video.ui.fragment
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +10,6 @@ import android.support.v4.content.FileProvider
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tbruyelle.rxpermissions2.RxPermissions
 import org.elephant.video.BuildConfig
 import org.elephant.video.R
 import org.elephant.video.base.BaseFragment
@@ -17,6 +17,8 @@ import org.elephant.video.databinding.FragmentTabPersonBinding
 import org.elephant.video.popup.PhotoPopupWindow
 import org.elephant.video.ui.widget.CircleImageView
 import org.elephant.video.utils.PortraitUtils
+import yangj.simplepermission.library.PermissionFragment
+import yangj.simplepermission.library.PermissionListener
 
 /**
  * @author YangJ
@@ -40,8 +42,6 @@ class PersonTabFragment : BaseFragment() {
             }
         })
     }
-
-    private val mRxPermissions by lazy { RxPermissions(context as Activity) }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -86,13 +86,24 @@ class PersonTabFragment : BaseFragment() {
      * 判断权限是否申请
      */
     private fun checkPermissions() {
-        mRxPermissions.request(android.Manifest.permission.CAMERA).subscribe { t ->
-            if (t) {
+        // 要申请的权限
+        val permissions = arrayOf(
+            Manifest.permission.CAMERA
+        )
+        // 回调监听
+        val listener = object : PermissionListener {
+            override fun onGranted() {
                 startSystemCamera()
-            } else {
+            }
 
+            override fun onDenied(permissions: List<String>) {
+                permissions.forEach {
+                    println("onDenied = $it")
+                }
             }
         }
+        // 申请权限
+        PermissionFragment.requestPermission(context!!, permissions, listener)
     }
 
     /**
