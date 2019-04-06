@@ -11,13 +11,9 @@ object DateUtils {
     /**
      * 格式化视频播放时长
      */
-    fun convertPlayDuration(duration: Int?): String? {
-        return if (duration == null) {
-            null
-        } else {
-            val minute = duration / UNIT_MINUTE
-            String.format("%02d:%02d", minute, duration % UNIT_MINUTE)
-        }
+    fun convertPlayDuration(duration: Int): String {
+        val minute = duration / UNIT_MINUTE
+        return String.format("%02d:%02d", minute, duration % UNIT_MINUTE)
     }
 
 }

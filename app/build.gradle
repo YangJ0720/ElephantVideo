@@ -64,6 +64,7 @@ dependencies {
     implementation "tv.danmaku.ijk.media:ijkplayer-java:$rootProject.ijk_version"
     implementation "tv.danmaku.ijk.media:ijkplayer-exo:$rootProject.ijk_version"
     implementation "tv.danmaku.ijk.media:ijkplayer-armv7a:$rootProject.ijk_version"
+    implementation "tv.danmaku.ijk.media:ijkplayer-x86:$rootProject.ijk_version"
     //
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary_version"

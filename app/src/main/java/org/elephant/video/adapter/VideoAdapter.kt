@@ -1,7 +1,5 @@
 package org.elephant.video.adapter
 
-import android.content.Context
-import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -18,19 +16,10 @@ import org.elephant.video.utils.DateUtils
  */
 class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
 
-    private var mWidth: Int = 0
-    private var mHeight: Int = 0
-    private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading).override(mWidth, mHeight) }
+    private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading) }
     private val mOptionsAuthor by lazy { RequestOptions.circleCropTransform() }
 
-    constructor(context: Context?, layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data) {
-        if (context != null) {
-            val metrics = context.resources.displayMetrics
-            mWidth = metrics.widthPixels
-            val d = context.resources.getDimension(R.dimen.dp_150)
-            mHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, d, metrics).toInt()
-        }
-    }
+    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data)
 
     override fun convert(helper: BaseViewHolder, item: VideoBean) {
         // 设置视频图片
@@ -44,11 +33,8 @@ class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
         val tvTitle = helper.getView<TextView>(R.id.tvTitle)
         tvTitle.text = item.title
         // 设置视频时长
-        val duration = DateUtils.convertPlayDuration(item.duration)
-        if (duration != null) {
-            val tvDuration = helper.getView<TextView>(R.id.tvDuration)
-            tvDuration.text = duration
-        }
+        val tvDuration = helper.getView<TextView>(R.id.tvDuration)
+        tvDuration.text = DateUtils.convertPlayDuration(item.duration)
         // 设置视频作者姓名
         helper.getView<TextView>(R.id.tvAuthorName).text = item.authorName
         // 设置视频作者头像

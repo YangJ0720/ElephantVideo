@@ -32,11 +32,11 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
 
     private lateinit var mHandler: ControllerHandler
 
-    private var mTvTitle: TextView? = null
-    private var mProgressBar: ProgressBar? = null
-    private var mIvPlay: ImageView? = null
-    private var mSeekBar: SeekBar? = null
-    private var mTvDuration: TextView? = null
+    private lateinit var mTvTitle: TextView
+    private lateinit var mProgressBar: ProgressBar
+    private lateinit var mIvPlay: ImageView
+    private lateinit var mSeekBar: SeekBar
+    private lateinit var mTvDuration: TextView
 
     private var mListener: OnMediaControllerListener? = null
 
@@ -64,9 +64,9 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
         mTvTitle = view.findViewById(R.id.tvTitle)
         mProgressBar = view.findViewById(R.id.progressBar)
         mIvPlay = view.findViewById(R.id.ivPlay)
-        mIvPlay?.setOnClickListener { mListener?.onToggle(mIvPlay) }
+        mIvPlay.setOnClickListener { mListener?.onToggle(mIvPlay) }
         mSeekBar = view.findViewById(R.id.seekBar)
-        mSeekBar?.setOnSeekBarChangeListener(this)
+        mSeekBar.setOnSeekBarChangeListener(this)
         mTvDuration = view.findViewById(R.id.tvDuration)
         view.findViewById<View>(R.id.ivFull).setOnClickListener { mListener?.onFull() }
         addView(view)
@@ -75,7 +75,7 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         when (ev?.action) {
             MotionEvent.ACTION_UP -> {
-                mHandler?.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
+                mHandler.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
             }
         }
         return super.dispatchTouchEvent(ev)
@@ -85,21 +85,21 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
      * 设置视频标题
      */
     fun setTitle(title: String?) {
-        mTvTitle?.text = title
+        mTvTitle.text = title
     }
 
     /**
      * 设置视频加载进度条
      */
     fun setProgressVisibility(visibility: Int) {
-        mProgressBar?.visibility = visibility
+        mProgressBar.visibility = visibility
     }
 
     /**
      * 设置视频时长
      */
     fun setDuration(duration: Int) {
-        mSeekBar?.max = duration
+        mSeekBar.max = duration
         postDelayedHide(true, 0)
     }
 
@@ -108,17 +108,17 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
      */
     fun postDelayedHide(isPlaying: Boolean, currentPosition: Int) {
         if (View.VISIBLE == visibility) {
-            mHandler?.removeMessages(HANDLER_WHAT_HIDE)
+            mHandler.removeMessages(HANDLER_WHAT_HIDE)
         } else {
             visibility = View.VISIBLE
         }
         // 判断是否为播放状态，如果是播放状态就移除进度条消息
         if (isPlaying) {
-            mHandler?.sendMessage(Message.obtain(mHandler, HANDLER_PROGRESS, currentPosition, 0))
-        } else if (mHandler?.hasMessages(HANDLER_PROGRESS)!!) {
-            mHandler?.removeMessages(HANDLER_PROGRESS)
+            mHandler.sendMessage(Message.obtain(mHandler, HANDLER_PROGRESS, currentPosition, 0))
+        } else if (mHandler.hasMessages(HANDLER_PROGRESS)) {
+            mHandler.removeMessages(HANDLER_PROGRESS)
         }
-        mHandler?.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
+        mHandler.sendEmptyMessageDelayed(HANDLER_WHAT_HIDE, HANDLER_HIDE_DELAYED)
     }
 
     /**
@@ -129,14 +129,23 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
     }
 
     /**
+     * 播放完毕
+     */
+    fun end() {
+        if (mHandler.hasMessages(HANDLER_PROGRESS)) {
+            mHandler.removeMessages(HANDLER_PROGRESS)
+        }
+    }
+
+    /**
      * 销毁相关资源
      */
     fun onDestroy() {
-        if (mHandler?.hasMessages(HANDLER_WHAT_HIDE)!!) {
-            mHandler?.removeMessages(HANDLER_WHAT_HIDE)
+        if (mHandler.hasMessages(HANDLER_WHAT_HIDE)) {
+            mHandler.removeMessages(HANDLER_WHAT_HIDE)
         }
-        if (mHandler?.hasMessages(HANDLER_PROGRESS)!!) {
-            mHandler?.removeMessages(HANDLER_PROGRESS)
+        if (mHandler.hasMessages(HANDLER_PROGRESS)) {
+            mHandler.removeMessages(HANDLER_PROGRESS)
         }
         mListener = null
     }
@@ -159,28 +168,29 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        mHandler?.removeCallbacksAndMessages(null)
+        mHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {}
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        mListener?.onSeek(mSeekBar?.progress)
+        mListener?.onSeek(mSeekBar.progress)
     }
 
     companion object {
         class ControllerHandler(private val reference: WeakReference<SmartMediaControllerView>) : Handler() {
 
             override fun handleMessage(msg: Message?) {
-                val view = reference?.get() ?: return
+                val view = reference.get() ?: return
                 when (msg?.what) {
                     HANDLER_WHAT_HIDE -> {
                         view.visibility = View.INVISIBLE
                         removeMessages(HANDLER_PROGRESS)
                     }
                     HANDLER_PROGRESS -> {
-                        view.mSeekBar?.progress = msg.arg1
-                        view.mTvDuration?.text = DateUtils.convertPlayDuration(msg.arg1 / 1000)
+                        view.mSeekBar.progress = msg.arg1
+                        view.mTvDuration.text =
+                            "${DateUtils.convertPlayDuration(msg.arg1 / 1000)} : ${DateUtils.convertPlayDuration(view.mSeekBar.max / 1000)}"
                         // 发送延时消息，用于更新播放进度
                         msg.arg1 += HANDLER_PROGRESS_DELAYED.toInt()
                         sendMessageDelayed(Message.obtain(msg), HANDLER_PROGRESS_DELAYED)

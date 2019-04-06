@@ -3,7 +3,6 @@ package org.elephant.video.base
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
-import com.squareup.leakcanary.LeakCanary
 
 /**
  * @author YangJ
@@ -17,7 +16,7 @@ class BaseApplication : Application() {
     }
 
     private fun initialize() {
-        LeakCanary.install(this)
+        // LeakCanary.install(this)
     }
 
     override fun onLowMemory() {

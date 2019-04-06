@@ -34,7 +34,7 @@ class TabPagerFragment : BaseLazyFragment() {
 
     override fun initData() {
         mData = ArrayList()
-        mAdapter = VideoAdapter(context, R.layout.item_tab_home, mData)
+        mAdapter = VideoAdapter(R.layout.item_tab_home, mData)
         mAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = adapter.getItem(position) as VideoBean
             PlayerActivity.startActivity(context, bean.title, bean.playUrl, bean.description)

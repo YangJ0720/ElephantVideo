@@ -17,7 +17,7 @@ class VideoBean {
     /**
      * 视频时长
      */
-    var duration: Int? = null
+    var duration: Int = 0
     /**
      * 视频播放地址
      */

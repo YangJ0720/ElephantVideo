@@ -22,8 +22,8 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer
  */
 class PlayerActivity : BaseActivity() {
 
-    private var mTitle: String? = null
-    private var mPlayUrl: String? = null
+    private lateinit var mTitle: String
+    private lateinit var mPlayUrl: String
     private lateinit var mFragments: ArrayList<Fragment>
 
     private lateinit var mVideoView: SmartVideoView
@@ -33,7 +33,10 @@ class PlayerActivity : BaseActivity() {
         bundle?.let {
             mTitle = it.getString(ARG_PARAM_TITLE)
             mPlayUrl = it.getString(ARG_PARAM_PLAY_URL)
-            mFragments = arrayListOf(PlayDetailsFragment.newInstance("1", "1"), PlayCommentFragment.newInstance("1", "1"))
+            mFragments = arrayListOf(
+                PlayDetailsFragment.newInstance("1", "1"),
+                PlayCommentFragment.newInstance("1", "1")
+            )
         }
     }
 

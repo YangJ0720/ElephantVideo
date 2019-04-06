@@ -33,7 +33,7 @@ class TabPagerAdapter : FragmentPagerAdapter {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val item = super.instantiateItem(container, position)
-        mContext?.let {
+        if (mContext != null) {
             val fragment = mFragments[position] as TabPagerFragment
             fragment.reload()
         }
@@ -41,10 +41,9 @@ class TabPagerAdapter : FragmentPagerAdapter {
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        mContext?.let {
-            val fragment = mFragments[position] as TabPagerFragment
-            fragment.clearMemory()
-        }
+        if (mContext == null) return
+        val fragment = mFragments[position] as TabPagerFragment
+        fragment.clearMemory()
     }
 
 }

@@ -29,7 +29,7 @@ class HomeTabFragment : BaseFragment() {
     override fun initData() {
         val labels = ArrayList<String?>()
         val fragments = ArrayList<Fragment>()
-        mAdapter = TabPagerAdapter(context!!, fragmentManager, fragments)
+        mAdapter = TabPagerAdapter(context!!, childFragmentManager, fragments)
         // 请求视频大纲获取接口
         val factory = InjectorUtils.provideHomeTabViewModelFactory()
         val model = ViewModelProviders.of(this, factory).get(HomeTabViewModel::class.java)
@@ -41,8 +41,12 @@ class HomeTabFragment : BaseFragment() {
                     return@let
                 }
                 for (i in 0 until size!!) {
+                    val id = result[i].id
+                    if (id < 0) {
+                        continue
+                    }
                     labels.add(result[i].name)
-                    fragments.add(TabPagerFragment.newInstance(result[i].id))
+                    fragments.add(TabPagerFragment.newInstance(id))
                 }
                 mAdapter.notifyDataSetChanged()
                 // 刷新ViewPager数据

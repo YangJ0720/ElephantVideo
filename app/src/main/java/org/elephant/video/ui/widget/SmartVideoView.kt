@@ -12,6 +12,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
 import org.elephant.video.R
+import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 /**
@@ -49,14 +50,31 @@ class SmartVideoView : FrameLayout {
         // IMediaPlayer
         mMediaPlayer = IjkMediaPlayer()
         // 开启硬解码
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
+        // mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
         // 设置监听
         mMediaPlayer.setOnPreparedListener { player ->
+            println("OnPrepared")
             mMediaController.setDuration(mMediaPlayer.duration.toInt())
             mMediaController.setProgressVisibility(View.GONE)
-            player?.start()
+            player.start()
         }
-        mMediaPlayer.setOnCompletionListener { println("onCompletion") }
+        mMediaPlayer.setOnCompletionListener {
+            println("onCompletion")
+            mMediaController.end()
+        }
+        mMediaPlayer.setOnInfoListener(object : IMediaPlayer.OnInfoListener {
+            override fun onInfo(p: IMediaPlayer, p1: Int, p2: Int): Boolean {
+                println("onInfo: p1 = $p1, p2 = $p2")
+                if (IMediaPlayer.MEDIA_INFO_BUFFERING_START == p1) {
+                    mMediaController.postDelayedHide(false, p.duration.toInt() / 1000)
+                } else if (IMediaPlayer.MEDIA_INFO_BUFFERING_END == p1) {
+                    mMediaController.postDelayedHide(true, p.duration.toInt() / 1000)
+                }
+                return false
+            }
+
+        })
+        mMediaPlayer.setOnSeekCompleteListener { println("onSeekComplete") }
         mMediaPlayer.setOnErrorListener { player, p1, p2 ->
             println("onError -> $player")
             println("onError -> $p1")
