@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Splash -->
+    <color name="color_splash">#EFEFEF</color>
+
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Person -->
+    <color name="color_person_sign_bg">#FCFCFC</color>
+    <color name="color_person_history_bg">#FAFAFA</color>
+
 </resources>

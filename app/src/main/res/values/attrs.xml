@@ -10,11 +10,18 @@
         <!-- 加载失败 -->
         <attr name="load_data_fail" format="reference"/>
     </declare-styleable>
-    
+
+    <!-- ConsumptionView -->
     <declare-styleable name="ConsumptionViewStyleable">
         <!-- 评论、收藏、分享图标之间的间距 -->
         <attr name="space_between" format="dimension"/>
         <attr name="text_size" format="dimension"/>
+    </declare-styleable>
+
+    <!-- DynamicTableLayout -->
+    <declare-styleable name="DynamicTableLayoutStyleable">
+        <!-- 列数 -->
+        <attr name="numColumns" format="integer"/>
     </declare-styleable>
     
 </resources>

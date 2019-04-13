@@ -3,39 +3,246 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
             style="@style/TabHostTheme"
-            tools:context=".ui.fragment.PersonTabFragment">
+            tools:context=".ui.fragment.PersonTabFragment"
+            android:scrollbars="none">
 
-        <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintDimensionRatio="h, 2:1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <org.elephant.video.ui.widget.CircleImageView
-                android:id="@+id/ivPhoto"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:layout_constraintBottom_toBottomOf="@id/view"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@id/view"
-                app:layout_constraintEnd_toEndOf="@id/view"/>
+            <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_160"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-                android:id="@+id/ivScan"
-                android:src="@drawable/ic_scan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            <!-- 用户头像 -->
+            <org.elephant.video.ui.widget.CircleImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/view"/>
 
-    </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="@id/ivPhoto"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_10"
+                    app:layout_constraintStart_toEndOf="@id/ivPhoto"
+                    app:layout_constraintBottom_toBottomOf="@id/ivPhoto">
 
+                <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/person_please_sign_in"
+                        android:textSize="@dimen/sp_16"
+                        style="@style/WhiteTextTheme"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:src="@drawable/ic_person_level"/>
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tvSign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_sign_get_welfare"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/ic_person_sign"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:background="@drawable/shape_person_sign_bg"
+                    app:layout_constraintTop_toTopOf="@id/ivPhoto"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/ivPhoto"/>
+
+            <TextView
+                    android:id="@+id/tvAttention"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_attention"
+                    android:textSize="@dimen/sp_12"
+                    style="@style/WhiteTextTheme"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    app:layout_constraintEnd_toStartOf="@id/tvLook"
+                    app:layout_constraintBottom_toBottomOf="@id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"/>
+
+            <TextView
+                    android:id="@+id/tvLook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_look"
+                    android:textSize="@dimen/sp_12"
+                    style="@style/WhiteTextTheme"
+                    app:layout_constraintEnd_toStartOf="@id/tvUpload"
+                    app:layout_constraintTop_toTopOf="@id/tvAttention"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAttention"
+                    app:layout_constraintStart_toEndOf="@id/tvAttention"
+                    app:layout_constraintHorizontal_bias="0.5"/>
+
+            <TextView
+                    android:id="@+id/tvUpload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_upload"
+                    android:textSize="@dimen/sp_12"
+                    style="@style/WhiteTextTheme"
+                    app:layout_constraintEnd_toStartOf="@id/tvCard"
+                    app:layout_constraintTop_toTopOf="@id/tvLook"
+                    app:layout_constraintBottom_toBottomOf="@id/tvLook"
+                    app:layout_constraintStart_toEndOf="@id/tvLook"
+                    app:layout_constraintHorizontal_bias="0.5"/>
+
+            <TextView
+                    android:id="@+id/tvCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_card"
+                    android:textSize="@dimen/sp_12"
+                    style="@style/WhiteTextTheme"
+                    app:layout_constraintTop_toTopOf="@id/tvUpload"
+                    app:layout_constraintBottom_toBottomOf="@id/tvUpload"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvUpload"
+                    app:layout_constraintHorizontal_bias="0.5"/>
+
+            <ImageView
+                    android:id="@+id/ivSettings"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ivNotify"/>
+
+            <ImageView
+                    android:id="@+id/ivNotify"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:src="@drawable/ic_notifications_none_black_24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            <!-- VIP会员 -->
+            <TextView
+                    android:id="@+id/tvMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_vip"
+                    style="@style/PersonLabelTheme"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    app:layout_constraintTop_toBottomOf="@id/view"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                    android:text="@string/person_vip_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/dp_10"
+                    style="@style/PersonLabelSubTheme"
+                    app:layout_constraintTop_toTopOf="@id/tvMember"
+                    app:layout_constraintBottom_toBottomOf="@id/tvMember"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- 历史记录 -->
+            <TextView
+                    android:text="@string/person_history"
+                    style="@style/PersonLabelTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvHistory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    app:layout_constraintTop_toBottomOf="@id/tvMember"/>
+
+            <TextView
+                    android:id="@+id/tvHistorySub"
+                    style="@style/PersonLabelSubTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_see_more"
+                    android:paddingRight="@dimen/dp_10"
+                    app:layout_constraintTop_toTopOf="@id/tvHistory"
+                    app:layout_constraintBottom_toBottomOf="@id/tvHistory"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_60"
+                    app:layout_constraintTop_toBottomOf="@id/tvHistory"/>
+
+            <!-- 我的缓存 -->
+            <TextView
+                    android:id="@+id/tvCache"
+                    style="@style/PersonLabelTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_cache"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    app:layout_constraintTop_toBottomOf="@id/rvHistory"/>
+
+            <TextView
+                    android:id="@+id/tvCacheSub"
+                    style="@style/PersonLabelSubTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_see_more"
+                    app:layout_constraintTop_toTopOf="@id/tvCache"
+                    app:layout_constraintBottom_toBottomOf="@id/tvCache"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingRight="@dimen/dp_10"/>
+
+            <!-- 个人服务 -->
+            <TextView
+                    android:id="@+id/tvService"
+                    style="@style/PersonLabelTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_service"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    app:layout_constraintTop_toBottomOf="@id/tvCache"/>
+
+            <include
+                    android:id="@+id/tableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/include_person_service"
+                    app:layout_constraintTop_toBottomOf="@id/tvService"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@color/color_person_sign_bg"
+                    app:layout_constraintTop_toBottomOf="@id/tableLayout"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 </layout>

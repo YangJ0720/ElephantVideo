@@ -27,12 +27,12 @@ class PhotoPopupWindow : PopupWindow {
         mParams = mWindow.attributes
         // 设置需要显示的界面布局
         val view = LayoutInflater.from(context).inflate(R.layout.popup_window_photo, null)
-        view.tvPhoto.setOnClickListener { it ->
-            listener?.onItemClick(it.id)
+        view.tvPhoto.setOnClickListener { item ->
+            listener?.onItemClick(item.id)
             dismiss()
         }
-        view.tvCamera.setOnClickListener { it ->
-            listener?.onItemClick(it.id)
+        view.tvCamera.setOnClickListener { item ->
+            listener?.onItemClick(item.id)
             dismiss()
         }
         view.tvCancel.setOnClickListener { dismiss() }

@@ -104,6 +104,17 @@ class SmartMediaControllerView : FrameLayout, SeekBar.OnSeekBarChangeListener {
     }
 
     /**
+     * 设置视频缓冲状态
+     */
+    fun setBuffRing(isBuff: Boolean) {
+        if (isBuff) {
+            mProgressBar.visibility = View.VISIBLE
+        } else {
+            mProgressBar.visibility = View.GONE
+        }
+    }
+
+    /**
      * 开启媒体控制器延时隐藏
      */
     fun postDelayedHide(isPlaying: Boolean, currentPosition: Int) {

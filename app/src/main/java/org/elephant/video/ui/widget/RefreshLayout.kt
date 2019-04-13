@@ -86,7 +86,7 @@ class RefreshLayout : FrameLayout {
         if (mViewLoadFailResId == 0) return
         if (mViewLoadFail == null) {
             mViewLoadFail = View.inflate(context, mViewLoadFailResId, null)
-            (mViewLoadFail as View).setOnClickListener {
+            mViewLoadFail?.setOnClickListener {
                 mListener?.let { listener ->
                     showLoadFail(false)
                     listener.onRetry()

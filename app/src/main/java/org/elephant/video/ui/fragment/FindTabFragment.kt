@@ -7,6 +7,7 @@ import org.elephant.video.base.BaseFragment
 import org.elephant.video.databinding.FragmentTabFindBinding
 
 /**
+ * 选项卡 -> 发现
  * @author YangJ
  */
 class FindTabFragment : BaseFragment() {

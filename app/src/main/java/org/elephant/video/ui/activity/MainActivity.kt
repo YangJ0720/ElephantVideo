@@ -30,13 +30,13 @@ class MainActivity : BaseActivity() {
         // view
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val mBottomNavigationBar = binding.bottomNavigationBar
-        mBottomNavigationBar?.setMode(BottomNavigationBar.MODE_FIXED)
-        mBottomNavigationBar?.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
-        mBottomNavigationBar?.addItem(BottomNavigationItem(R.drawable.ic_videocam_black_24dp, R.string.tab_label_home))
-        mBottomNavigationBar?.addItem(BottomNavigationItem(R.drawable.ic_search_black_24dp, R.string.tab_label_find))
-        mBottomNavigationBar?.addItem(BottomNavigationItem(R.drawable.ic_person_black_24dp, R.string.tab_label_person))
-        mBottomNavigationBar?.initialise()
-        mBottomNavigationBar?.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
+        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED)
+        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+        mBottomNavigationBar.addItem(BottomNavigationItem(R.drawable.ic_videocam_black_24dp, R.string.tab_label_home))
+        mBottomNavigationBar.addItem(BottomNavigationItem(R.drawable.ic_search_black_24dp, R.string.tab_label_find))
+        mBottomNavigationBar.addItem(BottomNavigationItem(R.drawable.ic_person_black_24dp, R.string.tab_label_person))
+        mBottomNavigationBar.initialise()
+        mBottomNavigationBar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
 
             override fun onTabReselected(position: Int) {
 
@@ -47,11 +47,14 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onTabSelected(position: Int) {
-                FragmentManagerUtil.onShow(supportFragmentManager.beginTransaction(),
-                    R.id.frameLayout, fragments[position])
+                FragmentManagerUtil.onShow(
+                    supportFragmentManager.beginTransaction(),
+                    R.id.frameLayout, fragments[position]
+                )
             }
 
         })
-        mBottomNavigationBar?.selectTab(0, true)
+        mBottomNavigationBar.selectTab(0, true)
     }
+
 }

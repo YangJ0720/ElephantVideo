@@ -17,6 +17,7 @@ import org.elephant.video.utils.InjectorUtils
 import org.elephant.video.viewmodel.HomeTabViewModel
 
 /**
+ * 选项卡 -> 视频
  * @author YangJ
  *
  */

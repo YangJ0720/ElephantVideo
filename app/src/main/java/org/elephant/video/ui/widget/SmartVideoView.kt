@@ -66,8 +66,12 @@ class SmartVideoView : FrameLayout {
             override fun onInfo(p: IMediaPlayer, p1: Int, p2: Int): Boolean {
                 println("onInfo: p1 = $p1, p2 = $p2")
                 if (IMediaPlayer.MEDIA_INFO_BUFFERING_START == p1) {
+                    // 正在缓冲
+                    mMediaController.setBuffRing(true)
                     mMediaController.postDelayedHide(false, p.duration.toInt() / 1000)
                 } else if (IMediaPlayer.MEDIA_INFO_BUFFERING_END == p1) {
+                    // 缓冲完毕
+                    mMediaController.setBuffRing(false)
                     mMediaController.postDelayedHide(true, p.duration.toInt() / 1000)
                 }
                 return false

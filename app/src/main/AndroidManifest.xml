@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.elephant.video">
-
     <!-- 网络访问权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 摄像头操作权限 -->
@@ -15,34 +14,41 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
-        <provider android:authorities="org.elephant.video.provider"
-                  android:exported="false"
-                  android:grantUriPermissions="true"
-                  android:name="android.support.v4.content.FileProvider">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                       android:resource="@xml/provider_paths"/>
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="org.elephant.video.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
         </provider>
-
         <!-- Glide自定义配置 -->
         <meta-data
                 android:name="org.elephant.video.config.SmartGlideModule"
                 android:value="AppGlideModule"/>
-        <!-- 应用程序主界面 -->
+        <!-- 欢迎界面 -->
         <activity
-                android:name=".ui.activity.MainActivity"
-                android:windowSoftInputMode="adjustPan">
+                android:name=".ui.activity.SplashActivity"
+                android:theme="@style/SplashActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- 应用程序主界面 -->
+        <activity
+                android:name=".ui.activity.MainActivity"
+                android:windowSoftInputMode="adjustPan"/>
         <!-- 视频播放界面 -->
         <activity
                 android:name=".ui.activity.PlayerActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize">
-        </activity>
+                android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <!-- 设置界面 -->
+        <activity android:name=".ui.activity.SettingsActivity"/>
+        <!-- 历史记录、我的缓存界面 -->
+        <activity android:name=".ui.activity.HistoryActivity"/>
     </application>
 
 </manifest>

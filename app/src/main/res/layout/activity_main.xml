@@ -20,7 +20,7 @@
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
                 android:id="@+id/bottomNavigationBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>

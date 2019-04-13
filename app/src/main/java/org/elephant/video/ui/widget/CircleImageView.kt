@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 
 /**
  * Created by YangJ on 2018/12/17.
+ * 用户圆角头像控件
  */
 class CircleImageView : ImageView {
 

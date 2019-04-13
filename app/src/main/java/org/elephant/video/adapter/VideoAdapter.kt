@@ -1,5 +1,6 @@
 package org.elephant.video.adapter
 
+import android.util.SparseArray
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -16,10 +17,21 @@ import org.elephant.video.utils.DateUtils
  */
 class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
 
+    private var mSparseArray: SparseArray<ImageView>
     private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading) }
     private val mOptionsAuthor by lazy { RequestOptions.circleCropTransform() }
 
-    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data)
+    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data) {
+        var size = 0
+        data?.let {
+            size = it.size
+        }
+        mSparseArray = SparseArray(size)
+    }
+
+    fun getImageView(): SparseArray<ImageView> {
+        return mSparseArray
+    }
 
     override fun convert(helper: BaseViewHolder, item: VideoBean) {
         // 设置视频图片
@@ -28,6 +40,11 @@ class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
             var homepage = Glide.with(iv).asDrawable().load(item.homepage).apply(mOptionsVideo)
             val feed = Glide.with(iv).asDrawable().load(item.feed).apply(mOptionsVideo).error(homepage)
             Glide.with(iv).asDrawable().load(item.detail).error(feed).apply(mOptionsVideo).into(iv)
+            //
+            val tmp = mSparseArray.get(helper.adapterPosition)
+            if (tmp == null) {
+                mSparseArray.put(helper.adapterPosition, iv)
+            }
         }
         // 设置视频标题
         val tvTitle = helper.getView<TextView>(R.id.tvTitle)

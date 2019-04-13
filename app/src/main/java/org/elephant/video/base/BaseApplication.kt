@@ -16,7 +16,7 @@ class BaseApplication : Application() {
     }
 
     private fun initialize() {
-        // LeakCanary.install(this)
+
     }
 
     override fun onLowMemory() {

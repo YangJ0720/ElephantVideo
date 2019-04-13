@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">小象视频</string>
+    <string name="app_name">Video Studio</string>
     <string name="cancel">取消</string>
 
     <!-- Home -->
@@ -9,6 +9,28 @@
 
     <string name="tab_label_play_details">简介</string>
     <string name="tab_label_play_comment">评论</string>
+
+    <!-- Person -->
+    <string name="person_please_sign_in">请登录</string>
+    <string name="person_attention">关注</string>
+    <string name="person_look">看单</string>
+    <string name="person_upload">上传</string>
+    <string name="person_card">卡券</string>
+    <string name="person_sign_get_welfare">签到领福利</string>
+    <string name="person_vip">VIP会员</string>
+    <string name="person_vip_join">【开通会员】首月5元/月</string>
+    <string name="person_history">历史记录</string>
+    <string name="person_see_more">查看更多</string>
+    <string name="person_cache">我的缓存</string>
+    <string name="person_service">个人服务</string>
+    <string name="person_service_item_orchard">果园大作战</string>
+    <string name="person_service_item_channel">我的频道</string>
+    <string name="person_service_item_integral">我的积分</string>
+    <string name="person_service_item_order">我的订单</string>
+    <string name="person_service_item_theme">主题换肤</string>
+    <string name="person_service_item_customer_service">我的客服</string>
+    <string name="person_service_item_free_flow">免流量专区</string>
+    <string name="person_service_item_more">更多</string>
 
     <!-- Photo -->
     <string name="portrait_change_by_photo">从相册选择图片</string>
