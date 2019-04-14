@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import org.elephant.video.R
 import org.elephant.video.base.BaseLazyFragment
 
-private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM_DESCRIPTION = "description"
 private const val ARG_PARAM2 = "param2"
 
 /**
@@ -15,7 +16,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class PlayDetailsFragment : BaseLazyFragment() {
 
-    private var param1: String? = null
+    private var mDescription: String? = null
     private var param2: String? = null
 
     override fun lazyLoad() {
@@ -24,13 +25,15 @@ class PlayDetailsFragment : BaseLazyFragment() {
 
     override fun initData() {
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            mDescription = it.getString(ARG_PARAM_DESCRIPTION)
             param2 = it.getString(ARG_PARAM2)
         }
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
-        return inflater.inflate(R.layout.fragment_play_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_play_details, container, false)
+        view.findViewById<TextView>(R.id.tvDescription).text = mDescription
+        return view
     }
 
     companion object {
@@ -38,7 +41,7 @@ class PlayDetailsFragment : BaseLazyFragment() {
         fun newInstance(param1: String, param2: String) =
             PlayDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM_DESCRIPTION, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }

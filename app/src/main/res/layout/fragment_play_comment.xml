@@ -5,10 +5,10 @@
              android:layout_height="match_parent"
              tools:context=".ui.fragment.PlayCommentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/dp_10"
             android:text="@string/tab_label_play_comment"/>
 
 </FrameLayout>

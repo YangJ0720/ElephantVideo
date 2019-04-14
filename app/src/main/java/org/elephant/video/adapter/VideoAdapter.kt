@@ -1,5 +1,6 @@
 package org.elephant.video.adapter
 
+import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -16,31 +17,17 @@ import org.elephant.video.utils.DateUtils
  */
 class VideoAdapter : BaseQuickAdapter<VideoBean, BaseViewHolder> {
 
-    //    private var mSparseArray: SparseArray<ImageView>
-    private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading) }
+    private var mWidth = 0
+    private var mHeight = 0
+    private val mOptionsVideo by lazy { RequestOptions().placeholder(R.drawable.ic_loading).override(mWidth, mHeight) }
     private val mOptionsAuthor by lazy { RequestOptions.circleCropTransform() }
 
-    constructor(layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data) {
-//        var size = data?.size ?: 0
-//        mSparseArray = SparseArray(size)
+    constructor(context: Context, layoutResId: Int, data: MutableList<VideoBean>?) : super(layoutResId, data) {
+        val resources = context.resources
+        val metrics = resources.displayMetrics
+        mWidth = metrics.widthPixels
+        mHeight = resources.getDimensionPixelSize(R.dimen.dp_150)
     }
-
-    fun clearAll() {
-//        for (i in 0 until mSparseArray.size()) {
-//            val childView = mSparseArray.get(i)
-//            println("i = $i -> childView = $childView")
-//            Glide.with(childView).clear(childView)
-//        }
-    }
-
-//    override fun onViewRecycled(holder: BaseViewHolder) {
-//        super.onViewRecycled(holder)
-//        val ivIcon = holder.getView<ImageView>(R.id.ivIcon)
-//        Glide.with(ivIcon).clear(ivIcon)
-//        val ivAuthor = holder.getView<ImageView>(R.id.ivAuthorIcon)
-//        Glide.with(ivAuthor).clear(ivAuthor)
-//        println("onViewRecycled -> ivIcon = $ivIcon, ivAuthor = $ivAuthor")
-//    }
 
     override fun convert(helper: BaseViewHolder, item: VideoBean) {
         // 设置视频图片

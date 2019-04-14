@@ -44,15 +44,13 @@ class TabPagerFragment : BaseLazyFragment() {
                 adapter.notifyDataSetChanged()
             }
         } else {
-            mAdapter?.let { adapter ->
-                adapter.clearAll()
-            }
+
         }
     }
 
     override fun initData() {
         mData = ArrayList()
-        mAdapter = VideoAdapter(R.layout.item_tab_home, mData)
+        mAdapter = VideoAdapter(context!!, R.layout.item_tab_home, mData)
         mAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = adapter.getItem(position) as VideoBean
             PlayerActivity.startActivity(context, bean.title, bean.playUrl, bean.description)

@@ -5,10 +5,10 @@
              android:layout_height="match_parent"
              tools:context=".ui.fragment.PlayDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/tab_label_play_details"/>
+            android:padding="@dimen/dp_10"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>

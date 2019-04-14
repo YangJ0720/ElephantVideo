@@ -33,8 +33,9 @@ class PlayerActivity : BaseActivity() {
         bundle?.let {
             mTitle = it.getString(ARG_PARAM_TITLE)
             mPlayUrl = it.getString(ARG_PARAM_PLAY_URL)
+            val description = it.getString(ARG_PARAM_DESCRIPTION)
             mFragments = arrayListOf(
-                PlayDetailsFragment.newInstance("1", "1"),
+                PlayDetailsFragment.newInstance(description, "1"),
                 PlayCommentFragment.newInstance("1", "1")
             )
         }
