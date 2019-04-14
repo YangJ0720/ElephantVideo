@@ -11,7 +11,7 @@
             app:load_data_fail="@layout/include_load_data_fail"
             tools:context=".ui.fragment.TabPagerFragment">
 
-        <android.support.v7.widget.RecyclerView
+        <org.elephant.video.ui.widget.WrapRecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

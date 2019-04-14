@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import org.elephant.video.R
 import org.elephant.video.adapter.VideoAdapter
 import org.elephant.video.base.BaseLazyFragment
@@ -37,26 +36,16 @@ class TabPagerFragment : BaseLazyFragment() {
         println("setUserVisibleHint -> $isVisibleToUser")
         if (isVisibleToUser) {
             mAdapter?.let { adapter ->
-                if (adapter.itemCount <= 0) return
-            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-            val firstPosition = layoutManager.findFirstVisibleItemPosition()
-            val lastPosition = layoutManager.findLastVisibleItemPosition()
-            adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-        }
+                //                if (adapter.itemCount <= 0) return
+//                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+//                val firstPosition = layoutManager.findFirstVisibleItemPosition()
+//                val lastPosition = layoutManager.findLastVisibleItemPosition()
+//                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
+                adapter.notifyDataSetChanged()
+            }
         } else {
-//        mAdapter?.let { adapter ->re
-//            if (adapter.itemCount <= 0) return
-//            for (i in 0 until adapter.itemCount) {
-//                val itemView = adapter.getViewByPosition(mRecyclerView, i, R.id.ivIcon) ?: continue
-//                Glide.with(context!!).clear(itemView)
-//            }
-//        }
             mAdapter?.let { adapter ->
-                val list = adapter.getImageView()
-                for (i in 0 until list.size()) {
-                    val view = list.get(i)
-                    Glide.with(context!!).clear(view)
-                }
+                adapter.clearAll()
             }
         }
     }
