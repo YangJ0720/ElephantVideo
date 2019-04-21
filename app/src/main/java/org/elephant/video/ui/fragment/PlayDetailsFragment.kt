@@ -9,7 +9,6 @@ import org.elephant.video.R
 import org.elephant.video.base.BaseLazyFragment
 
 private const val ARG_PARAM_DESCRIPTION = "description"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * @author YangJ 视频简介选项卡
@@ -17,7 +16,6 @@ private const val ARG_PARAM2 = "param2"
 class PlayDetailsFragment : BaseLazyFragment() {
 
     private var mDescription: String? = null
-    private var param2: String? = null
 
     override fun lazyLoad() {
 
@@ -26,7 +24,6 @@ class PlayDetailsFragment : BaseLazyFragment() {
     override fun initData() {
         arguments?.let {
             mDescription = it.getString(ARG_PARAM_DESCRIPTION)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -38,11 +35,10 @@ class PlayDetailsFragment : BaseLazyFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(description: String) =
             PlayDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM_DESCRIPTION, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_PARAM_DESCRIPTION, description)
                 }
             }
     }
