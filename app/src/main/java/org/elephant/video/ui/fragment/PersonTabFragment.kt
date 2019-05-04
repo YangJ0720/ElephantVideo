@@ -14,6 +14,7 @@ import org.elephant.video.bean.VideoHistory
 import org.elephant.video.databinding.FragmentTabPersonBinding
 import org.elephant.video.popup.PhotoPopupWindow
 import org.elephant.video.ui.activity.HistoryActivity
+import org.elephant.video.ui.activity.RegisteredActivity
 import org.elephant.video.ui.activity.SettingsActivity
 import org.elephant.video.ui.widget.CircleImageView
 import org.elephant.video.utils.PortraitUtils
@@ -87,6 +88,9 @@ class PersonTabFragment : BaseFragment() {
         mIvPhoto = binding.ivPhoto
         mIvPhoto.setImageResourceByGlide(R.drawable.a6m)
         mIvPhoto.setOnClickListener { view -> mPopupWindow.show(view) }
+        binding.linearLayout.setOnClickListener {
+            startActivity(Intent(context, RegisteredActivity::class.java))
+        }
         binding.ivSettings.setOnClickListener {
             startActivity(Intent(context, SettingsActivity::class.java))
         }

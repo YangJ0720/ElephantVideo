@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.activity.registerActivity">
+
+        <include
+                android:id="@+id/include"
+                layout="@layout/include_title"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+                android:id="@+id/etUserName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_50"
+                android:hint="@string/register_username"
+                android:inputType="textImeMultiLine"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/etPassWord"
+                app:layout_constraintTop_toBottomOf="@id/include"/>
+
+        <EditText
+                android:id="@+id/etPassWord"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_50"
+                android:hint="@string/register_password"
+                android:inputType="textPostalAddress"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/etEmail"
+                app:layout_constraintTop_toBottomOf="@id/etUserName"/>
+
+        <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_50"
+                android:hint="@string/register_email"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
+                app:layout_constraintTop_toBottomOf="@id/etPassWord"/>
+
+        <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_50"
+                android:gravity="center"
+                android:text="@string/register"
+                android:textColor="@android:color/white"
+                android:background="@color/colorAccent"
+                app:layout_constraintTop_toBottomOf="@id/etEmail"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -1,6 +1,7 @@
 package org.elephant.video.utils
 
 import org.elephant.video.repository.RemoteDataRepository
+import org.elephant.video.viewmodel.DeveloperRegisterModelFactory
 import org.elephant.video.viewmodel.HomeTabViewModelFactory
 import org.elephant.video.viewmodel.TabPagerViewModelFactory
 
@@ -32,6 +33,15 @@ object InjectorUtils {
     fun provideTabPagerViewModelFactory(id: Int?): TabPagerViewModelFactory {
         val repository = getRemoteRepository()
         return TabPagerViewModelFactory(repository, id)
+    }
+
+    fun provideDeveloperRegisterModelFactory(
+        name: String,
+        passwd: String,
+        email: String
+    ): DeveloperRegisterModelFactory {
+        val repository = getRemoteRepository()
+        return DeveloperRegisterModelFactory(repository, name, passwd, email)
     }
 
 }

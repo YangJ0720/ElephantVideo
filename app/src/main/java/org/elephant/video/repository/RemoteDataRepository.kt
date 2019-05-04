@@ -116,6 +116,27 @@ class RemoteDataRepository {
         return data
     }
 
+    /**
+     * 开发者注册
+     */
+    fun developerRegister(name: String, passwd: String, email: String): MutableLiveData<BaseResponse<DeveloperRegisterBean>> {
+        val data = MutableLiveData<BaseResponse<DeveloperRegisterBean>>()
+        val api = RetrofitManager.getInstance().create(RetrofitApi::class.java)
+        val observable = api.developerRegister(name, passwd, email)
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : RxSubscribe<DeveloperRegisterBean>() {
+                override fun onSuccess(t: BaseResponse<DeveloperRegisterBean>) {
+                    data.value = t
+                }
+
+                override fun onFailed(e: Throwable) {
+                    data.value = null
+                }
+
+            })
+        return data
+    }
+
     abstract class RxSubscribe<T> : Observer<BaseResponse<T>> {
 
         override fun onComplete() {

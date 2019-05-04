@@ -1,12 +1,10 @@
 package yangj.mvvm
 
 import io.reactivex.Observable
+import org.elephant.video.bean.*
 import org.elephant.video.network.bean.BaseResponse
-import org.elephant.video.bean.TodayVideoBean
-import org.elephant.video.bean.VideoCategoryBean
-import org.elephant.video.bean.VideoCategoryDetailsBean
-import org.elephant.video.bean.VideoHomeTabBean
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
@@ -39,4 +37,10 @@ interface RetrofitApi {
     @GET("videoCategoryDetails")
     fun videoCategoryDetails(@Query("id") id: Int?): Observable<BaseResponse<List<VideoCategoryDetailsBean>>>
 
+    /**
+     * 开发者注册
+     */
+    @POST("developerRegister")
+    fun developerRegister(@Query("name") name: String, @Query("passwd") passwd: String,
+                          @Query("email") email: String): Observable<BaseResponse<DeveloperRegisterBean>>
 }

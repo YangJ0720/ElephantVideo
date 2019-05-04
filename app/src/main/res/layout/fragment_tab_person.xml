@@ -30,6 +30,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/view"/>
 
             <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="@id/ivPhoto"
@@ -200,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/person_cache"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:paddingTop="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_20"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingBottom="@dimen/dp_10"
                     app:layout_constraintTop_toBottomOf="@id/rvHistory"/>
