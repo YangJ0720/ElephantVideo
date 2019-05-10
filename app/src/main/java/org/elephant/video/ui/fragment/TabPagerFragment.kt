@@ -8,10 +8,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import org.elephant.video.R
 import org.elephant.video.adapter.VideoAdapter
 import org.elephant.video.base.BaseLazyFragment
 import org.elephant.video.bean.VideoBean
+import org.elephant.video.common.CommonAdapter
+import org.elephant.video.common.CommonViewHolder
 import org.elephant.video.databinding.FragmentTabPagerBinding
 import org.elephant.video.listener.SmartRVScrollListener
 import org.elephant.video.ui.activity.PlayerActivity
@@ -31,30 +35,61 @@ class TabPagerFragment : BaseLazyFragment() {
     private lateinit var mRefreshLayout: RefreshLayout
     private lateinit var mRecyclerView: RecyclerView
 
+//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+//        super.setUserVisibleHint(isVisibleToUser)
+//        println("setUserVisibleHint -> $isVisibleToUser")
+//        if (isVisibleToUser) {
+//            mAdapter?.let { adapter ->
+//                //                if (adapter.itemCount <= 0) return
+////                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+////                val firstPosition = layoutManager.findFirstVisibleItemPosition()
+////                val lastPosition = layoutManager.findLastVisibleItemPosition()
+////                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
+//                adapter.notifyDataSetChanged()
+//            }
+//        } else {
+//
+//        }
+//    }
+
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         println("setUserVisibleHint -> $isVisibleToUser")
         if (isVisibleToUser) {
             mAdapter?.let { adapter ->
-                //                if (adapter.itemCount <= 0) return
-//                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-//                val firstPosition = layoutManager.findFirstVisibleItemPosition()
-//                val lastPosition = layoutManager.findLastVisibleItemPosition()
-//                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-                adapter.notifyDataSetChanged()
+                if (adapter.itemCount <= 0) return
+                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+                val firstPosition = layoutManager.findFirstVisibleItemPosition()
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
             }
         } else {
-
+            mAdapter?.let { adapter ->
+                if (adapter.itemCount <= 0) return
+                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+                val firstPosition = layoutManager.findFirstVisibleItemPosition()
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                for (i in firstPosition..lastPosition) {
+                    val holder = mRecyclerView.findViewHolderForLayoutPosition(i)
+                    if (holder == null) return
+                    if (holder is CommonViewHolder) {
+                        val ivIcon = holder.getViewById<ImageView>(R.id.ivIcon)
+                        Glide.with(context!!).clear(ivIcon)
+                    }
+                }
+            }
         }
     }
 
     override fun initData() {
         mData = ArrayList()
         mAdapter = VideoAdapter(context!!, R.layout.item_tab_home, mData)
-        mAdapter?.setOnItemClickListener { adapter, _, position ->
-            val bean = adapter.getItem(position) as VideoBean
-            PlayerActivity.startActivity(context, bean.title, bean.playUrl, bean.description)
-        }
+        mAdapter?.setOnItemClickListener(object : CommonAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val item = mAdapter?.getItem(position)!!
+                PlayerActivity.startActivity(context, item.title, item.playUrl, item.description)
+            }
+        })
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -70,6 +105,7 @@ class TabPagerFragment : BaseLazyFragment() {
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         mRecyclerView.addOnScrollListener(SmartRVScrollListener(context!!))
+        mRecyclerView.setRecyclerListener { holder -> println("holder = $holder") }
         return binding.root
     }
 

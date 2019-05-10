@@ -1,23 +1,22 @@
 package org.elephant.video.adapter
 
+import android.content.Context
 import android.widget.TextView
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import org.elephant.video.R
 import org.elephant.video.bean.VideoHistory
+import org.elephant.video.common.CommonAdapter
+import org.elephant.video.common.CommonViewHolder
 
 /**
  * 历史记录列表数据适配器
  * Created by YangJ on 2019/4/13.
  */
-class PersonHistoryAdapter : BaseQuickAdapter<VideoHistory, BaseViewHolder> {
+class PersonHistoryAdapter(context: Context, layoutResId: Int, list: List<VideoHistory>) :
+    CommonAdapter<VideoHistory, CommonViewHolder>(context, layoutResId, list) {
 
-    constructor(layoutResId: Int, data: MutableList<VideoHistory>?) : super(layoutResId, data)
-    constructor(data: MutableList<VideoHistory>?) : super(data)
-    constructor(layoutResId: Int) : super(layoutResId)
-
-    override fun convert(helper: BaseViewHolder, item: VideoHistory) {
-        helper.getView<TextView>(R.id.tvHistory).text = item.name
+    override fun onBindItemViewHolder(holder: CommonViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.getViewById<TextView>(R.id.tvHistory).text = item.name
     }
 
 }

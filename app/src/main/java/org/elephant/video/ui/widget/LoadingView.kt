@@ -14,7 +14,7 @@ import java.text.DecimalFormat
  */
 class LoadingView : AppCompatImageView {
 
-    private lateinit var mAnimation: AnimationDrawable
+    private var mAnimation: AnimationDrawable? = null
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -23,29 +23,44 @@ class LoadingView : AppCompatImageView {
     }
 
     private fun initialize() {
+
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        if (View.VISIBLE == visibility) {
+            mAnimation?.let { animation->
+                if (!animation.isRunning) {
+                    animation.start()
+                }
+            }
+        } else {
+            mAnimation?.let { animation->
+                if (animation.isRunning) {
+                    animation.stop()
+                }
+            }
+        }
+        super.onWindowVisibilityChanged(visibility)
+    }
+
+    override fun onAttachedToWindow() {
         mAnimation = AnimationDrawable()
-        mAnimation.isOneShot = false
+        mAnimation!!.isOneShot = false
         val format = DecimalFormat("loading_#00")
         val packageName = context.packageName
         for (i in 0..29) {
             val resId = resources.getIdentifier(format.format(i), "drawable", packageName)
             val bitmap = BitmapFactory.decodeResource(resources, resId)
             val drawable = BitmapDrawable(resources, bitmap)
-            mAnimation.addFrame(drawable, DURATION)
+            mAnimation!!.addFrame(drawable, DURATION)
         }
         background = mAnimation
+        super.onAttachedToWindow()
     }
 
-    override fun onWindowVisibilityChanged(visibility: Int) {
-        super.onWindowVisibilityChanged(visibility)
-        if (View.VISIBLE == visibility) {
-            if (mAnimation.isRunning) return
-            mAnimation.start()
-        } else {
-            if (mAnimation.isRunning) {
-                mAnimation.stop()
-            }
-        }
+    override fun onDetachedFromWindow() {
+        mAnimation = null
+        super.onDetachedFromWindow()
     }
 
     companion object {

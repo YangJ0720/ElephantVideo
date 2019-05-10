@@ -79,7 +79,7 @@ class PersonTabFragment : BaseFragment() {
         for (i in 0..size) {
             history.add(VideoHistory("第${i}行", ""))
         }
-        mHistoryAdapter = PersonHistoryAdapter(R.layout.item_person_history, history)
+        mHistoryAdapter = PersonHistoryAdapter(context!!, R.layout.item_person_history, history)
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -100,6 +100,7 @@ class PersonTabFragment : BaseFragment() {
         }
         // 历史记录
         binding.rvHistory.adapter = mHistoryAdapter
+        binding.rvHistory.setHasFixedSize(true)
         binding.rvHistory.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL, false
