@@ -35,52 +35,6 @@ class TabPagerFragment : BaseLazyFragment() {
     private lateinit var mRefreshLayout: RefreshLayout
     private lateinit var mRecyclerView: RecyclerView
 
-//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-//        super.setUserVisibleHint(isVisibleToUser)
-//        println("setUserVisibleHint -> $isVisibleToUser")
-//        if (isVisibleToUser) {
-//            mAdapter?.let { adapter ->
-//                //                if (adapter.itemCount <= 0) return
-////                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-////                val firstPosition = layoutManager.findFirstVisibleItemPosition()
-////                val lastPosition = layoutManager.findLastVisibleItemPosition()
-////                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-//                adapter.notifyDataSetChanged()
-//            }
-//        } else {
-//
-//        }
-//    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        println("setUserVisibleHint -> $isVisibleToUser")
-        if (isVisibleToUser) {
-            mAdapter?.let { adapter ->
-                if (adapter.itemCount <= 0) return
-                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-                val firstPosition = layoutManager.findFirstVisibleItemPosition()
-                val lastPosition = layoutManager.findLastVisibleItemPosition()
-                adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-            }
-        } else {
-            mAdapter?.let { adapter ->
-                if (adapter.itemCount <= 0) return
-                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-                val firstPosition = layoutManager.findFirstVisibleItemPosition()
-                val lastPosition = layoutManager.findLastVisibleItemPosition()
-                for (i in firstPosition..lastPosition) {
-                    val holder = mRecyclerView.findViewHolderForLayoutPosition(i)
-                    if (holder == null) return
-                    if (holder is CommonViewHolder) {
-                        val ivIcon = holder.getViewById<ImageView>(R.id.ivIcon)
-                        Glide.with(context!!).clear(ivIcon)
-                    }
-                }
-            }
-        }
-    }
-
     override fun initData() {
         mData = ArrayList()
         mAdapter = VideoAdapter(context!!, R.layout.item_tab_home, mData)
@@ -138,26 +92,30 @@ class TabPagerFragment : BaseLazyFragment() {
     }
 
     fun reload() {
-//        mAdapter?.let { adapter ->
-//            if (adapter.itemCount <= 0) return
+        mAdapter?.let { adapter ->
+            if (adapter.itemCount <= 0) return
+            adapter.notifyDataSetChanged()
 //            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
 //            val firstPosition = layoutManager.findFirstVisibleItemPosition()
 //            val lastPosition = layoutManager.findLastVisibleItemPosition()
-//            adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-//        }
+            // adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
+        }
     }
 
     fun clearMemory() {
-//        mAdapter?.let { adapter ->
-//            if (adapter.itemCount <= 0) return
-//            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-//            val firstPosition = layoutManager.findFirstVisibleItemPosition()
-//            val lastPosition = layoutManager.findLastVisibleItemPosition()
-//            for (i in firstPosition..lastPosition) {
-//                val itemView = adapter.getViewByPosition(mRecyclerView, i, R.id.ivIcon) ?: continue
-//                Glide.with(context!!).clear(itemView)
-//            }
-//        }
+        mAdapter?.let { adapter ->
+            if (adapter.itemCount <= 0) return
+            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+            val firstPosition = layoutManager.findFirstVisibleItemPosition()
+            val lastPosition = layoutManager.findLastVisibleItemPosition()
+            for (i in firstPosition..lastPosition) {
+                val holder = mRecyclerView.findViewHolderForLayoutPosition(i)
+                if (holder is CommonViewHolder) {
+                    val imageView = holder.getViewById<ImageView>(R.id.ivIcon)
+                    Glide.with(context!!).clear(imageView)
+                }
+            }
+        }
     }
 
     companion object {
