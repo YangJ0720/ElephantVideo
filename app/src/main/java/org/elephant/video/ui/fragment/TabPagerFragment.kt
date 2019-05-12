@@ -92,14 +92,14 @@ class TabPagerFragment : BaseLazyFragment() {
     }
 
     fun reload() {
-        mAdapter?.let { adapter ->
-            if (adapter.itemCount <= 0) return
-            adapter.notifyDataSetChanged()
-//            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-//            val firstPosition = layoutManager.findFirstVisibleItemPosition()
-//            val lastPosition = layoutManager.findLastVisibleItemPosition()
-            // adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-        }
+//        mAdapter?.let { adapter ->
+//            if (adapter.itemCount <= 0) return
+//            adapter.notifyDataSetChanged()
+////            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+////            val firstPosition = layoutManager.findFirstVisibleItemPosition()
+////            val lastPosition = layoutManager.findLastVisibleItemPosition()
+//            // adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
+//        }
     }
 
     fun clearMemory() {

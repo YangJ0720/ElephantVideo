@@ -11,6 +11,7 @@ import org.elephant.video.common.CommonAdapter
 import org.elephant.video.common.CommonViewHolder
 import org.elephant.video.ui.widget.ConsumptionView
 import org.elephant.video.utils.DateUtils
+import java.util.*
 
 /**
  * Created by YangJ on 2018/10/27.
@@ -29,8 +30,6 @@ class VideoAdapter : CommonAdapter<VideoBean, CommonViewHolder> {
         var homepage = Glide.with(ivIcon).asDrawable().load(item.homepage).apply(mOptionsVideo)
         val feed = Glide.with(ivIcon).asDrawable().load(item.feed).apply(mOptionsVideo).error(homepage)
         Glide.with(ivIcon).asDrawable().load(item.detail).error(feed).apply(mOptionsVideo).into(ivIcon)
-        // 设置视频图片tag
-        holder.itemView.tag = ivIcon
         // 设置视频标题
         val tvTitle = holder.getViewById<TextView>(R.id.tvTitle)
         tvTitle.text = item.title
@@ -44,6 +43,26 @@ class VideoAdapter : CommonAdapter<VideoBean, CommonViewHolder> {
         Glide.with(ivAuthorIcon).asDrawable().load(item.authorIcon).apply(mOptionsAuthor).into(ivAuthorIcon)
         // 设置收藏、评论、分享次数
         holder.getViewById<ConsumptionView>(R.id.view).setCount(item.collectionCount, item.replyCount, item.shareCount)
+        //
+        holder.itemView.tag = ItemViewTag(ivIcon, ivAuthorIcon)
     }
 
+    inner class ItemViewTag {
+        private var mLinkedList: LinkedList<ImageView> = LinkedList()
+
+        constructor(vararg imageViews: ImageView) {
+            imageViews.forEach { iv ->
+                mLinkedList.add(iv)
+            }
+        }
+
+        fun clear() {
+            if (mLinkedList.isEmpty()) {
+                return
+            }
+            mLinkedList.forEach {
+                Glide.with(it.context).clear(it)
+            }
+        }
+    }
 }
