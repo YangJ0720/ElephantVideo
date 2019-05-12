@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,8 @@ class HomeTabFragment : BaseFragment() {
     private lateinit var mAdapter: TabPagerAdapter
 
     private lateinit var mTabLayout: TabLayout
+
+    private lateinit var mPool: RecyclerView.RecycledViewPool
 
     override fun initData() {
         val labels = ArrayList<String?>()
@@ -54,6 +57,8 @@ class HomeTabFragment : BaseFragment() {
                 notifyTabPager(labels)
             }
         })
+        //
+        mPool = RecyclerView.RecycledViewPool()
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -74,4 +79,7 @@ class HomeTabFragment : BaseFragment() {
         }
     }
 
+    fun getRecyclerViewPool(): RecyclerView.RecycledViewPool {
+        return mPool
+    }
 }

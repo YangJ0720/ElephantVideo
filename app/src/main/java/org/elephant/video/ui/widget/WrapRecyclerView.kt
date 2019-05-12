@@ -15,19 +15,24 @@ class WrapRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
-    override fun onViewRemoved(child: View?) {
-        super.onViewRemoved(child)
-        val tag = child?.tag
-        println("onViewRemoved -> $tag")
-        if (tag == null) return
-        if (tag is VideoAdapter.ItemViewTag) {
-            tag.clear()
+    override fun onViewAdded(child: View?) {
+        super.onViewAdded(child)
+        child?.let {
+            val position = getChildAdapterPosition(it)
+            if (isComputingLayout) {
+                it.post {
+                    adapter?.notifyItemChanged(position)
+                }
+            }
         }
     }
 
-    override fun dispatchWindowVisibilityChanged(visibility: Int) {
-        super.dispatchWindowVisibilityChanged(visibility)
-        println("dispatchWindowVisibilityChanged -> $visibility")
+    override fun onViewRemoved(child: View?) {
+        super.onViewRemoved(child)
+        val tag = child?.tag ?: return
+        if (tag is VideoAdapter.ItemViewTag) {
+            tag.clear()
+        }
     }
 
 }
