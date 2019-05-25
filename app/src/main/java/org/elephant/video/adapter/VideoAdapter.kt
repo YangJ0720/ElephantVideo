@@ -1,6 +1,7 @@
 package org.elephant.video.adapter
 
 import android.content.Context
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -11,7 +12,6 @@ import org.elephant.video.common.CommonAdapter
 import org.elephant.video.common.CommonViewHolder
 import org.elephant.video.ui.widget.ConsumptionView
 import org.elephant.video.utils.DateUtils
-import java.util.*
 
 /**
  * Created by YangJ on 2018/10/27.
@@ -44,25 +44,40 @@ class VideoAdapter : CommonAdapter<VideoBean, CommonViewHolder> {
         // 设置收藏、评论、分享次数
         holder.getViewById<ConsumptionView>(R.id.view).setCount(item.collectionCount, item.replyCount, item.shareCount)
         //
-        holder.itemView.tag = ItemViewTag(ivIcon, ivAuthorIcon)
+        onBindItemViewTag(holder.itemView, item.detail, item.authorIcon)
     }
 
-    inner class ItemViewTag {
-        private var mLinkedList: LinkedList<ImageView> = LinkedList()
-
-        constructor(vararg imageViews: ImageView) {
-            imageViews.forEach { iv ->
-                mLinkedList.add(iv)
-            }
+    private fun onBindItemViewTag(itemView: View, cover: String?, author: String?) {
+        var tag = itemView.tag
+        if (tag == null) {
+            tag = ItemViewTag()
+            itemView.tag = tag
         }
-
-        fun clear() {
-            if (mLinkedList.isEmpty()) {
-                return
-            }
-            mLinkedList.forEach {
-                Glide.with(it.context).clear(it)
-            }
+        if (tag is ItemViewTag) {
+            tag.mUrlCover = cover
+            tag.mUrlAuthor = author
         }
     }
+
+    override fun onViewAttachedToWindow(holder: CommonViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val tag = holder.itemView.tag as ItemViewTag
+        val ivIcon = holder.getViewById<ImageView>(R.id.ivIcon)
+        val ivAuthorIcon = holder.getViewById<ImageView>(R.id.ivAuthorIcon)
+        Glide.with(ivIcon).load(tag.mUrlCover).into(ivIcon)
+        Glide.with(ivAuthorIcon).load(tag.mUrlAuthor).into(ivAuthorIcon)
+    }
+
+    override fun onViewDetachedFromWindow(holder: CommonViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        val ivIcon = holder.getViewById<ImageView>(R.id.ivIcon)
+        val ivAuthorIcon = holder.getViewById<ImageView>(R.id.ivAuthorIcon)
+        Glide.with(ivIcon).clear(ivIcon)
+        Glide.with(ivAuthorIcon).clear(ivAuthorIcon)
+    }
+}
+
+class ItemViewTag {
+    var mUrlCover: String? = null
+    var mUrlAuthor: String? = null
 }

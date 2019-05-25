@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import org.elephant.video.databinding.FragmentTabHomeBinding
 import org.elephant.video.listener.SmartVPScrollListener
 import org.elephant.video.network.bean.BaseResponse
 import org.elephant.video.utils.InjectorUtils
+import org.elephant.video.utils.MemoryLeakUtils
 import org.elephant.video.viewmodel.HomeTabViewModel
 
 /**
@@ -27,8 +27,6 @@ class HomeTabFragment : BaseFragment() {
     private lateinit var mAdapter: TabPagerAdapter
 
     private lateinit var mTabLayout: TabLayout
-
-    private lateinit var mPool: RecyclerView.RecycledViewPool
 
     override fun initData() {
         val labels = ArrayList<String?>()
@@ -44,7 +42,7 @@ class HomeTabFragment : BaseFragment() {
                 if (size!! <= 0) {
                     return@let
                 }
-                for (i in 0 until size!!) {
+                for (i in 0 until size) {
                     val id = result[i].id
                     if (id < 0) {
                         continue
@@ -57,8 +55,6 @@ class HomeTabFragment : BaseFragment() {
                 notifyTabPager(labels)
             }
         })
-        //
-        mPool = RecyclerView.RecycledViewPool()
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -71,6 +67,11 @@ class HomeTabFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MemoryLeakUtils.fixInputMethodMemoryLeak(context)
+    }
+
     private fun notifyTabPager(names: ArrayList<String?>) {
         val tabCount = mTabLayout.tabCount
         for (i in 0 until tabCount) {
@@ -79,7 +80,4 @@ class HomeTabFragment : BaseFragment() {
         }
     }
 
-    fun getRecyclerViewPool(): RecyclerView.RecycledViewPool {
-        return mPool
-    }
 }

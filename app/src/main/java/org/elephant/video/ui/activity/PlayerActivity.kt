@@ -36,7 +36,7 @@ class PlayerActivity : BaseActivity() {
             val description = it.getString(ARG_PARAM_DESCRIPTION)
             mFragments = arrayListOf(
                 PlayDetailsFragment.newInstance(description),
-                PlayCommentFragment.newInstance("1", "1")
+                PlayCommentFragment.newInstance()
             )
         }
     }
@@ -73,7 +73,9 @@ class PlayerActivity : BaseActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (KeyEvent.KEYCODE_BACK == keyCode) {
+            // 判断视频播放界面是否为横屏模式
             if (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE == requestedOrientation) {
+                // 如果为横屏模式，先退出横屏模式
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 return true
             }
@@ -98,6 +100,13 @@ class PlayerActivity : BaseActivity() {
         private const val ARG_PARAM_PLAY_URL = "playUrl"
         private const val ARG_PARAM_DESCRIPTION = "description"
 
+        /**
+         * 打开视频播放界面
+         * @param context 参数为当前上下文对象
+         * @param title 参数为视频标题
+         * @param playUrl 参数为视频播放地址
+         * @param description 参数为视频描述
+         */
         @JvmStatic
         fun startActivity(context: Context?, title: String?, playUrl: String?, description: String?) {
             val intent = Intent(context, PlayerActivity::class.java)

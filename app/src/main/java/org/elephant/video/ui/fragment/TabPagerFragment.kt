@@ -39,10 +39,11 @@ class TabPagerFragment : BaseLazyFragment() {
         mData = ArrayList()
         mAdapter = VideoAdapter(context!!, R.layout.item_tab_home, mData)
         mAdapter?.setOnItemClickListener(object : CommonAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                val item = mAdapter?.getItem(position)!!
+            override fun onItemClick(adapter: CommonAdapter<*, *>, view: View, position: Int) {
+                val item = adapter.getItem(position) as VideoBean
                 PlayerActivity.startActivity(context, item.title, item.playUrl, item.description)
             }
+
         })
     }
 
@@ -54,13 +55,12 @@ class TabPagerFragment : BaseLazyFragment() {
                 requestVideoList()
             }
         })
-        mRecyclerView = binding.recyclerView
-        // mRecyclerView.setRecycledViewPool(getParentPool())
-        mRecyclerView.adapter = mAdapter
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        mRecyclerView.addOnScrollListener(SmartRVScrollListener(context!!))
-        mRecyclerView.setRecyclerListener { holder -> println("holder = $holder") }
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = mAdapter
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.addOnScrollListener(SmartRVScrollListener(context!!))
+        mRecyclerView = recyclerView
         return binding.root
     }
 
@@ -116,14 +116,6 @@ class TabPagerFragment : BaseLazyFragment() {
                 }
             }
         }
-    }
-
-    private fun getParentPool(): RecyclerView.RecycledViewPool? {
-        val fragment = parentFragment
-        if (fragment is HomeTabFragment) {
-            return fragment.getRecyclerViewPool()
-        }
-        return null
     }
 
     companion object {
