@@ -8,6 +8,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <!-- Login -->
+    <color name="color_login_medium_blue">#0000CD</color>
+    <color name="color_login_blue">#0000FF</color>
+    <color name="color_login_dodger_blue">#1E90FF</color>
+    <color name="color_login_deep_sky_blue">#00BFFF</color>
     <!-- Person -->
     <color name="color_person_sign_bg">#FCFCFC</color>
     <color name="color_person_history_bg">#FAFAFA</color>

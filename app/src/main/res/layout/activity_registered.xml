@@ -49,7 +49,7 @@
                 style="@style/RegisterEditTextTheme"
                 android:hint="@string/register_email"
                 android:inputType="textEmailAddress"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:nextClusterForward="@id/etPassWord"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

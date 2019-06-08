@@ -14,6 +14,7 @@ import org.elephant.video.bean.VideoHistory
 import org.elephant.video.databinding.FragmentTabPersonBinding
 import org.elephant.video.popup.PhotoPopupWindow
 import org.elephant.video.ui.activity.HistoryActivity
+import org.elephant.video.ui.activity.LoginActivity
 import org.elephant.video.ui.activity.RegisteredActivity
 import org.elephant.video.ui.activity.SettingsActivity
 import org.elephant.video.ui.widget.CircleImageView
@@ -89,9 +90,11 @@ class PersonTabFragment : BaseFragment() {
         mIvPhoto.setImageResourceByGlide(R.drawable.a6m)
         mIvPhoto.setOnClickListener { view -> mPopupWindow.show(view) }
         binding.linearLayout.setOnClickListener {
-            startActivity(Intent(context, RegisteredActivity::class.java))
+            // 跳转用户登陆界面
+            startActivity(Intent(context, LoginActivity::class.java))
         }
         binding.ivSettings.setOnClickListener {
+            // 跳转设置界面
             startActivity(Intent(context, SettingsActivity::class.java))
         }
         // 历史记录 -> 查看更多
