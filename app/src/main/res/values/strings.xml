@@ -42,10 +42,14 @@
     <string name="load_data_fail">加载失败，点击重试</string>
 
     <!-- Register -->
+    <string name="register_country">国家/地区</string>
+    <string name="register_country_china">中国 +86</string>
     <string name="register">注册</string>
     <string name="register_username">用户名</string>
     <string name="register_password">密码</string>
+    <string name="register_confirm_password">确认密码</string>
     <string name="register_email">邮箱</string>
+    <string name="register_password_hint">至少8个字符，不能包含空格；字母、数字、符号至少包含2种。</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

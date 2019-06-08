@@ -61,4 +61,12 @@
         <item name="android:drawableRight">@drawable/ic_navigate_next_black_24dp</item>
     </style>
 
+    <!-- 注册输入框样式 -->
+    <style name="RegisterEditTextTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10</item>
+        <item name="android:layout_marginRight">@dimen/dp_10</item>
+    </style>
 </resources>
