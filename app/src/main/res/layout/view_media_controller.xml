@@ -40,10 +40,10 @@
             app:layout_constraintTop_toTopOf="@id/seekBar"
             app:layout_constraintBottom_toBottomOf="@id/seekBar"/>
 
-    <SeekBar
+    <org.elephant.video.ui.widget.VideoSeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_4"
             android:layout_marginRight="@dimen/dp_4"
             app:layout_constraintStart_toEndOf="@id/ivPlay"

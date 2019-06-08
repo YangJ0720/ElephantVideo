@@ -21,8 +21,6 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer
  */
 class SmartVideoView : FrameLayout {
 
-    private var isPause = false
-
     private lateinit var mActivity: Activity
     private lateinit var mMediaPlayer: IjkMediaPlayer
     private lateinit var mSurfaceView: SurfaceView
@@ -54,7 +52,7 @@ class SmartVideoView : FrameLayout {
         // 设置监听
         mMediaPlayer.setOnPreparedListener { player ->
             println("OnPrepared")
-            mMediaController.setDuration(mMediaPlayer.duration.toInt())
+            mMediaController.setDuration(mMediaPlayer.duration)
             mMediaController.setProgressVisibility(View.GONE)
             player.start()
         }
@@ -68,15 +66,12 @@ class SmartVideoView : FrameLayout {
                 if (IMediaPlayer.MEDIA_INFO_BUFFERING_START == p1) {
                     // 正在缓冲
                     mMediaController.setBuffRing(true)
-                    mMediaController.postDelayedHide(false, p.duration.toInt() / 1000)
                 } else if (IMediaPlayer.MEDIA_INFO_BUFFERING_END == p1) {
                     // 缓冲完毕
                     mMediaController.setBuffRing(false)
-                    mMediaController.postDelayedHide(true, p.duration.toInt() / 1000)
                 }
                 return false
             }
-
         })
         mMediaPlayer.setOnSeekCompleteListener { println("onSeekComplete") }
         mMediaPlayer.setOnErrorListener { player, p1, p2 ->
@@ -98,14 +93,9 @@ class SmartVideoView : FrameLayout {
 
             override fun surfaceCreated(holder: SurfaceHolder?) {
                 mMediaPlayer.setDisplay(holder)
-                if (isPause) {
-                    mMediaPlayer.start()
-                    isPause = false
-                } else {
-                    mMediaPlayer.prepareAsync()
-                }
+                if (mMediaPlayer.isPlaying) return
+                mMediaPlayer.prepareAsync()
             }
-
         })
         mSurfaceView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(mSurfaceView)
@@ -119,9 +109,7 @@ class SmartVideoView : FrameLayout {
      * 设置视频播放链接
      */
     fun setVideoPath(path: String?) {
-        if (TextUtils.isEmpty(path)) {
-            return
-        }
+        if (TextUtils.isEmpty(path)) return
         mMediaPlayer.dataSource = path
     }
 
@@ -129,9 +117,7 @@ class SmartVideoView : FrameLayout {
      * 设置标题
      */
     fun setTitle(title: String?) {
-        if (TextUtils.isEmpty(title)) {
-            return
-        }
+        if (TextUtils.isEmpty(title)) return
         mMediaController.setTitle(title)
     }
 
@@ -152,18 +138,18 @@ class SmartVideoView : FrameLayout {
             override fun onToggle(view: ImageView?) {
                 if (mMediaPlayer.isPlaying) {
                     mMediaPlayer.pause()
+                    mMediaController.pause()
                     view?.setImageResource(R.drawable.ic_video_play)
                 } else {
                     mMediaPlayer.start()
+                    mMediaController.start()
                     view?.setImageResource(R.drawable.ic_video_pause)
                 }
-                mMediaController.postDelayedHide(mMediaPlayer.isPlaying, mMediaPlayer.currentPosition.toInt())
             }
 
             override fun onSeek(progress: Int?) {
                 progress ?: return
                 mMediaPlayer.seekTo(progress.toLong())
-                mMediaController.postDelayedHide(mMediaPlayer.isPlaying, mMediaPlayer.currentPosition.toInt())
             }
         })
     }
@@ -188,7 +174,7 @@ class SmartVideoView : FrameLayout {
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                mMediaController.postDelayedHide(mMediaPlayer.isPlaying, mMediaPlayer.currentPosition.toInt())
+                // mMediaController.postDelayedHide(mMediaPlayer.isPlaying, mMediaPlayer.currentPosition.toInt())
             }
         }
         return super.dispatchTouchEvent(event)
@@ -196,7 +182,6 @@ class SmartVideoView : FrameLayout {
 
     fun pause() {
         mMediaPlayer.pause()
-        isPause = true
     }
 
     /**

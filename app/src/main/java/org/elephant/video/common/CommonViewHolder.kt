@@ -10,7 +10,7 @@ import android.view.ViewGroup
  * @author YangJ
  * @since 2019/5/6
  */
-class CommonViewHolder : RecyclerView.ViewHolder {
+open class CommonViewHolder : RecyclerView.ViewHolder {
 
     private var mSparseArray: SparseArray<View>
 

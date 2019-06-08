@@ -3,6 +3,7 @@ package org.elephant.video.common
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 
 /**
@@ -54,7 +55,7 @@ abstract class CommonAdapter<M, V> : RecyclerView.Adapter<CommonViewHolder> {
         mOnItemClickListener?.let { listener ->
             val itemView = holder.itemView
             itemView.setOnClickListener {
-                listener.onItemClick(holder.layoutPosition)
+                listener.onItemClick(this@CommonAdapter, holder.itemView, holder.layoutPosition)
             }
         }
     }
@@ -64,6 +65,6 @@ abstract class CommonAdapter<M, V> : RecyclerView.Adapter<CommonViewHolder> {
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(adapter: CommonAdapter<*, *>, view: View, position: Int)
     }
 }
