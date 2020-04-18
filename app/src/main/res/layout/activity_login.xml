@@ -18,7 +18,7 @@
         <ImageView
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
-                android:layout_marginTop="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_40"
                 android:src="@mipmap/ic_launcher"/>
 
         <TextView
@@ -73,7 +73,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/sp_18"
-                android:background="@color/color_login_dodger_blue"/>
+                android:background="@color/colorAccent"/>
 
         <TextView
                 android:id="@+id/tvRegister"
@@ -88,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/dp_5"
+                android:paddingBottom="@dimen/dp_5"
                 android:text="@string/login_forget_password"/>
 
     </LinearLayout>

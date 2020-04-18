@@ -3,7 +3,10 @@ package org.elephant.video.base
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.support.v4.view.LayoutInflaterCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager

@@ -1,9 +1,8 @@
 <resources>
 
     <!-- 欢迎界面主题样式 -->
-    <style name="SplashActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="SplashActivityTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/layer_splash_bg</item>
     </style>
 

@@ -1,49 +1,25 @@
 package org.elephant.video.adapter
 
-import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.view.ViewGroup
+import android.support.v4.app.FragmentStatePagerAdapter
 import org.elephant.video.ui.fragment.TabPagerFragment
 
 /**
  * @author YangJ
  * @date 2018/10/30
  */
-class TabPagerAdapter : FragmentPagerAdapter {
+class TabPagerAdapter(fm: FragmentManager?, ids: ArrayList<Int>) : FragmentStatePagerAdapter(fm) {
 
-    private var mContext: Context?
-    private var mFragments: List<Fragment>
-
-    constructor(fm: FragmentManager?, fragments: List<Fragment>) : this(null, fm, fragments)
-
-    constructor(context: Context?, fm: FragmentManager?, fragments: List<Fragment>) : super(fm) {
-        mContext = context
-        mFragments = fragments
-    }
+    private var mIds: ArrayList<Int> = ids
 
     override fun getItem(position: Int): Fragment? {
-        return mFragments[position]
+        val id = mIds[position]
+        return TabPagerFragment.newInstance(id)
     }
 
     override fun getCount(): Int {
-        return mFragments.size
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val item = super.instantiateItem(container, position)
-        if (mContext != null) {
-            val fragment = mFragments[position] as TabPagerFragment
-            fragment.reload()
-        }
-        return item
-    }
-
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        if (mContext == null) return
-        val fragment = mFragments[position] as TabPagerFragment
-        fragment.clearMemory()
+        return mIds.size
     }
 
 }

@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.KeyEvent
 import org.elephant.video.R
-import org.elephant.video.adapter.TabPagerAdapter
+import org.elephant.video.adapter.PlayerTabAdapter
 import org.elephant.video.base.BaseActivity
 import org.elephant.video.databinding.ActivityPlayerBinding
 import org.elephant.video.ui.fragment.PlayCommentFragment
@@ -48,7 +48,7 @@ class PlayerActivity : BaseActivity() {
         mVideoView.setVideoPath(mPlayUrl)
         mVideoView.setTitle(mTitle)
         // 初始化选项卡
-        binding.viewPager.adapter = TabPagerAdapter(supportFragmentManager, mFragments)
+        binding.viewPager.adapter = PlayerTabAdapter(supportFragmentManager, mFragments)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         // 简介
         binding.tabLayout.getTabAt(0)?.text = resources.getText(R.string.tab_label_play_details)

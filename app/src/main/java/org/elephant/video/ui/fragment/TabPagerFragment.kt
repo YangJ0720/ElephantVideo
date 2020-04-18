@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Choreographer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,32 +91,6 @@ class TabPagerFragment : BaseLazyFragment() {
                 }
             }
         })
-    }
-
-    fun reload() {
-        mAdapter?.let { adapter ->
-            if (adapter.itemCount <= 0) return
-            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-            val firstPosition = layoutManager.findFirstVisibleItemPosition()
-            val lastPosition = layoutManager.findLastVisibleItemPosition()
-            adapter.notifyItemRangeChanged(firstPosition, lastPosition - firstPosition + 1)
-        }
-    }
-
-    fun clearMemory() {
-        mAdapter?.let { adapter ->
-            if (adapter.itemCount <= 0) return
-            val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-            val firstPosition = layoutManager.findFirstVisibleItemPosition()
-            val lastPosition = layoutManager.findLastVisibleItemPosition()
-            for (i in firstPosition..lastPosition) {
-                val holder = mRecyclerView.findViewHolderForLayoutPosition(i)
-                if (holder is CommonViewHolder) {
-                    val imageView = holder.getViewById<ImageView>(R.id.ivIcon)
-                    Glide.with(context!!).clear(imageView)
-                }
-            }
-        }
     }
 
     companion object {
